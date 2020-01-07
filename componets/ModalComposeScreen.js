@@ -107,7 +107,7 @@ export default class ModalComposeScreen extends React.Component {
         
         numOfWords += newLines.length;
 
-        if(num <= 11){
+        if(numOfWords <= 11){
             s = text;
         }
         else{
