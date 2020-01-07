@@ -1,9 +1,9 @@
 import React from 'react';
 import {View,Text,Button} from 'react-native';
-import DetailScreen from './DetailScreen';
+//import DetailScreen from './DetailScreen';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import HomeScreen from './HomeScreen';
+//import HomeScreen from './HomeScreen';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards';
 //import { makeStyles } from '@material-ui/core/styles';
 /*import Card from '@material-ui/core/Card';

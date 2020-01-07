@@ -15,11 +15,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 
-import HomeScreen from './componets/HomeScreen';
-import AboutScreen from './componets/AboutScreen';
-import DetailScreen from './componets/DetailScreen';
-import ModalComposeScreen from './componets/ModalComposeScreen';
-import ModalFilterScreen from './componets/ModalFilterScreen';
+import HomeScreen from './screens/HomeScreen';
+import AboutScreen from './screens/AboutScreen';
+import DetailScreen from './screens/DetailScreen';
+import ModalComposeScreen from './screens/ModalComposeScreen';
+import ModalFilterScreen from './screens/ModalFilterScreen';
 
 export default class App extends React.Component {
   

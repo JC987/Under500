@@ -1,13 +1,13 @@
 // Homescreen.js
 import React, { Component } from 'react';
 import { Button, View, Text, TextInput, FlatList } from 'react-native';
-import Box from './Box';
+import Box from '../components/Box';
 import ProgressBar from 'react-native-progress/Bar';
 
 import * as firebase from 'firebase';
 
 import '@firebase/firestore';
-import ConfigFirebase from './ConfigFirebase';
+import ConfigFirebase from '../components/ConfigFirebase';
 
 
 
@@ -64,7 +64,7 @@ render() {
         <View style={{height:75, flexDirection:'row'}}>
           <TextInput style={{height:50, backgroundColor: '#fff', margin: 8, padding: 4, flex:9}} placeholder="Search for a story"/>
           <View style={{ justifyContent: 'center'}}>   
-             <Button style={{flex:1, textAlign:'center'}} onPress={() => {this.signIn()}} title="Filter"/>
+             <Button style={{flex:1, textAlign:'center'}} onPress={() => {this.props.navigation.navigate("ModalFilter")}} title="Filter"/>
           </View>
         </View>
         <FlatList
