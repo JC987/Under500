@@ -1,10 +1,10 @@
 // Modalcomposescreen.js
 import React, { Component } from 'react';
-import { Button, View, Text, TextInput, Switch, Slider, Picker } from 'react-native';
+import { Button, View, Text, TextInput, Switch, Slider, Picker, CheckBox, Input } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-//let storyLength = 0;
-//let story;
-let ti = "YOLO";
+import * as firebase from 'firebase';
+
+import '@firebase/firestore';
 export default class ModalComposeScreen extends React.Component {
     constructor(props){
         super(props);
@@ -15,104 +15,143 @@ export default class ModalComposeScreen extends React.Component {
             summary:'',
             titleLength: 0,
             title:'',
-            switchValue: false
+            switchOther: false,
+            switchAdventure: false,
+            switchComedy: false,
+            switchPoem: false,
+            switchFiction: false,
+            switchHorror: false,
+            switchMystery: false,
+            switchParody: false,
+            switchNonFiction: false,
+            switchSciFi: false,
+            switchRomance: false,
+            switchThriller: false,
+            body:[],
         }
         this.handleStory = this.handleStory.bind(this);
         this.handleSummary = this.handleSummary.bind(this);
         this.handleTitle = this.handleTitle.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSwitch = this.handleSwitch.bind(this);
     }
 
     handleStory = (text) =>{
-        //   if(e.target.value != undefined){
-            console.log(text);
-           let spaces  = text.split(' ');
-           let newLines = text.split('\n');
-        let num = 0;
+        let spaces  = text.split(' ');
+        let newLines = text.split('\n');
+        let numOfWords = 0;
         let s = '';
 
         for(let i = 0; i < spaces.length; i++){
+            //count the number of words
             if(spaces[i] != "")
-                num++;
+                numOfWords++;
         }
-        
-        num += newLines.length;
+        //count a new line as a word. I do this so that user can not surpase 500 words by creating new lines
+        numOfWords += newLines.length;
 
-        if(num <= 501){
+        //501 because the very first line would count as a word and I don't want to count it
+        if(numOfWords <= 501){
             s = text;
         }
         else{
             s = this.state.story;
-            num--;
+            numOfWords--;
         }
         
         this.setState({
-            storyLength: num - 1,
+            storyLength: numOfWords - 1,
             story: s
         })
     }
 
     handleSummary = (text) =>{
-        //   if(e.target.value != undefined){
-            console.log(text);
-           let spaces  = text.split(' ');
-           let newLines = text.split('\n');
-        let num = 0;
+        //same situation apples for handleSummary as handleStory
+        let spaces  = text.split(' ');
+        let newLines = text.split('\n');
+        let numOfWords = 0;
         let s = '';
 
         for(let i = 0; i < spaces.length; i++){
             if(spaces[i] != "")
-                num++;
+            numOfWords++;
         }
         
-        num += newLines.length;
+        numOfWords += newLines.length;
 
-        if(num <= 51){
+        if(numOfWords <= 51){
             s = text;
         }
         else{
             s = this.state.summary;
-            num--;
+            numOfWords--;
         }
         
         this.setState({
-            summaryLength: num - 1,
+            summaryLength: numOfWords - 1,
             summary: s
         })
     }
 
     handleTitle = (text) =>{
-     //   if(e.target.value != undefined){
-         console.log(text);
+        //same situation apples for handleSummary as handleTitle
         let spaces  = text.split(' ');
         let newLines = text.split('\n');
-        let num = 0;
+        let numOfWords = 0;
         let s = '';
 
         for(let i = 0; i < spaces.length; i++){
             if(spaces[i] != "")
-                num++;
+            numOfWords++;
         }
         
-        num += newLines.length;
+        numOfWords += newLines.length;
 
         if(num <= 11){
             s = text;
         }
         else{
             s = this.state.title;
-            num--;
+            numOfWords--;
         }
         
         this.setState({
-            titleLength: num - 1,
+            titleLength: numOfWords - 1,
             title: s
         })
    // }
     }
     
-    handleSwitch = () =>{
-
+    handleSwitch = (e) =>{
+        console.log(e);
+        console.log(e.text)
+        this.setState({
+            switchValue: !this.state.switchValue
+        })
     }
+
+    handleSubmit = (e) =>{
+    
+    const db = firebase.firestore();
+    
+    var user = firebase.auth().currentUser;
+    let tmp_a = user.displayName;
+    let tmp_t = this.state.title;
+    let tmp_s = this.state.summary;
+    let tmp_b = this.state.story.split("\n");
+      
+    // Add a new document with a generated id.
+    let addDoc = db.collection('stroies').add({
+        title: tmp_t,
+        summary: tmp_s,
+        body:tmp_b,
+        author:tmp_a
+    }).then(ref => {
+        console.log('Added document with ID: ', ref.id);
+        this.props.navigation.navigate("Home");
+    }).catch(console.log("ERROR"));
+    }
+    
     render() {
       return (
         <View style={{ flex: 1}}>
@@ -146,7 +185,7 @@ export default class ModalComposeScreen extends React.Component {
              
                     </View>
                     
-             
+                    
                 <View style={{flexDirection:'row'}}>
                     <Switch style={{marginLeft:16}}></Switch>
                     <Text style={{marginLeft:16}}>Epic</Text>
@@ -169,7 +208,7 @@ export default class ModalComposeScreen extends React.Component {
                     <Switch style={{marginLeft:16}}></Switch>
                     <Text style={{marginLeft:16}}>Non-Fiction</Text>
                 </View>    
-                    
+                
                 <View style={{flexDirection:'row'}}>
                     <Switch style={{marginLeft:16}}></Switch>
                     <Text style={{marginLeft:16}}>Science-Ficition</Text>
@@ -181,20 +220,27 @@ export default class ModalComposeScreen extends React.Component {
                     
                 <View style={{flexDirection:'row'}}>
                  
-                    <Switch style={{marginLeft:16}} />
+                <Switch style={{marginLeft:16}} value={this.state.switchValue}  
+                    onValueChange ={(text = "OTHER")=>{this.handleSwitch(text)
+                    }}/> 
                     <Text style={{marginLeft:16}}>Thriller</Text>
 
                     
-                    <Switch style={{marginLeft:16}} value={this.state.switchValue}  
-                    onValueChange ={(switchValue)=>this.setState({switchValue})}/> 
+                    <Switch style={{marginLeft:16}} value={this.state.switchOther}  
+                    onValueChange ={()=>{this.handleSwitch(text)
+                    }}/> 
                     <Text style={{marginLeft:16}}>OTHER</Text>
+                    <CheckBox name= "cat"  value={this.state.switchOther}  
+                    onValueChange ={()=>{this.handleSwitch(name)}} ></CheckBox>
                 </View>
 
                 </View>
             </View>
                    
           <Button
-            onPress={() => this.props.navigation.goBack()}
+            onPress={() => {
+               this.handleSubmit();
+            }}
             title="Submit!"
           />
           </ScrollView>

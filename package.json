@@ -10,12 +10,16 @@
   "dependencies": {
     "@material-ui/core": "^4.8.2",
     "@material-ui/icons": "^4.5.1",
+    "@react-native-community/art": "^1.1.2",
+    "@react-native-firebase/app": "^6.2.0",
     "expo": "~36.0.0",
+    "firebase": "^7.6.1",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-material-cards": "^1.0.9",
+    "react-native-progress": "^4.0.3",
     "react-native-reanimated": "~1.4.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "^0.11.7",
@@ -24,8 +28,8 @@
     "react-navigation-tabs": "^2.6.2"
   },
   "devDependencies": {
-    "babel-preset-expo": "~8.0.0",
-    "@babel/core": "^7.0.0"
+    "@babel/core": "^7.0.0",
+    "babel-preset-expo": "~8.0.0"
   },
   "private": true
 }

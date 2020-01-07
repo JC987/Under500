@@ -9,6 +9,7 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
-
+componets/ConfigFirebase.js
+componets/LoginScreen.js
 # macOS
 .DS_Store
