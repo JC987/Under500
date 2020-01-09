@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from './screens/HomeScreen';
 import AboutScreen from './screens/AboutScreen';
 import DetailScreen from './screens/DetailScreen';
+import LoginScreen from './screens/LoginScreen';
 import ModalComposeScreen from './screens/ModalComposeScreen';
 import ModalFilterScreen from './screens/ModalFilterScreen';
 
@@ -78,6 +79,8 @@ const AppNavigator = createStackNavigator({
   },
   About: {
     screen: AboutScreen
+  },Login: {
+    screen: LoginScreen
   },
   Detail:{
     screen: DetailScreen,

@@ -7,8 +7,7 @@ import ProgressBar from 'react-native-progress/Bar';
 import * as firebase from 'firebase';
 
 import '@firebase/firestore';
-import ConfigFirebase from '../components/ConfigFirebase';
-
+import ConfigFirebase from './ConfigFirebase';
 
 
 
