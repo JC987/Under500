@@ -1,6 +1,6 @@
 // Aboutscreen.js
 import React, { Component } from 'react';
-import { Button, View, Text, TextInput, Alert } from 'react-native';
+import { Button, View, Text, TextInput, KeyboardAvoidingView } from 'react-native';
 import { createAppContainer } from "react-navigation";
 
 import { createStackNavigator } from 'react-navigation-stack';
@@ -17,7 +17,7 @@ export default class Aboutscreen extends React.Component {
             login:true,
         }
         this.signOut = this.signOut.bind(this);
-        this.handleSwitch = this.handleSwitch.bind(this);
+        this.switchScreens = this.switchScreens.bind(this);
     }
 
   signOut = (e) =>{
@@ -31,13 +31,14 @@ export default class Aboutscreen extends React.Component {
     });
   }
 
-  handleSwitch = (e) =>{
+  switchScreens = (e) =>{
     console.log("switch");
     this.setState({
       switchText: (!this.state.login) ? "Or Sign Up" : "Or Log In",
       login:!this.state.login
     });
   }
+  
   render() {
     let user = firebase.auth().currentUser;
     
@@ -75,16 +76,16 @@ export default class Aboutscreen extends React.Component {
           display = <SignUp nav = {this.props.navigation}/> 
 
         return (
-          <View style={{ flex: 1, alignItems:'center', justifyContent:'center'}}>
+            <KeyboardAvoidingView  style={{ flex: 1, alignItems:'center', justifyContent:'center'}} behavior="padding" enabled>
               {display}
               
-              <TouchableOpacity onPress = {() => { this.handleSwitch()}}>
+              <TouchableOpacity onPress = {() => { this.switchScreens()}}>
                           <Text style = {{color:'blue', textDecorationLine:'underline', fontSize:16}}>
                             {this.state.switchText}
                           </Text>
               </TouchableOpacity>
 
-          </View>
+          </KeyboardAvoidingView>
           
         )
     }

@@ -1,10 +1,10 @@
 // Homescreen.js
 import React, { Component } from 'react';
-import { Button, View, Text, TextInput, Alert } from 'react-native';
+import { Button, View, Text, TextInput } from 'react-native';
 import * as firebase from 'firebase';
 
 import ProgressBar from 'react-native-progress/Bar';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
 export default class SignupScreen extends Component{
     constructor(props){
       super(props);
