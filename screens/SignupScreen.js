@@ -18,6 +18,7 @@ export default class SignupScreen extends Component{
           errorMessage:"",
           showProgress:false
         }
+        
         this.getEmail = this.getEmail.bind(this);
         this.getPassword = this.getPassword.bind(this);
         this.getDisplayName = this.getDisplayName.bind(this);
@@ -107,6 +108,8 @@ export default class SignupScreen extends Component{
                   email: this.state.email,
                   password: this.state.password,
                   userId: user['user']['uid'],
+                  createdAt: new Date().toISOString(),
+
                 }).then(ref => {
 
                     console.log('Added document: ', ref);
