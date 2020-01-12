@@ -1,9 +1,6 @@
 // Aboutscreen.js
 import React, { Component } from 'react';
 import { Button, View, Text, TextInput, KeyboardAvoidingView, FlatList } from 'react-native';
-import { createAppContainer } from "react-navigation";
-
-import { createStackNavigator } from 'react-navigation-stack';
 import * as firebase from 'firebase';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Login from './LoginScreen';

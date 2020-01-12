@@ -145,7 +145,8 @@ export default class ModalComposeScreen extends React.Component {
         title: tmp_t,
         summary: tmp_s,
         body:tmp_b,
-        author:tmp_a
+        author:tmp_a,
+        createdAt: new Date().toISOString(),
     }).then(ref => {
         console.log('Added document with ID: ', ref.id);
         this.props.navigation.navigate("Home");
@@ -186,44 +187,24 @@ export default class ModalComposeScreen extends React.Component {
                     </View>
                     
                     
-                <View style={{flexDirection:'row'}}>
-                    <Switch style={{marginLeft:16}}></Switch>
-                    <Text style={{marginLeft:16}}>Epic</Text>
-                    <Switch style={{marginLeft:16}}></Switch>
-                    <Text style={{marginLeft:16}}>Fiction</Text>
-                </View>
+               
                
                 <View style={{flexDirection:'row'}}>
                     <Switch style={{marginLeft:16}}></Switch>
                     <Text style={{marginLeft:16}}>Horror</Text>
-                    
-                    <Switch style={{marginLeft:16}}></Switch>
-                    <Text style={{marginLeft:16}}>Mystery</Text>
-                </View>
-                    
-                <View style={{flexDirection:'row'}}>
-                    <Switch style={{marginLeft:16}}></Switch>
-                    <Text style={{marginLeft:16}}>Parody</Text>
-                    
-                    <Switch style={{marginLeft:16}}></Switch>
-                    <Text style={{marginLeft:16}}>Non-Fiction</Text>
-                </View>    
-                
-                <View style={{flexDirection:'row'}}>
+
                     <Switch style={{marginLeft:16}}></Switch>
                     <Text style={{marginLeft:16}}>Science-Ficition</Text>
                     
-                    <Switch style={{marginLeft:16}} ></Switch>
-                    <Text style={{marginLeft:16}}>Romance</Text>
-                    
                 </View>
-                    
+                      
+            
                 <View style={{flexDirection:'row'}}>
                  
                 <Switch style={{marginLeft:16}} value={this.state.switchValue}  
                     onValueChange ={(text = "OTHER")=>{this.handleSwitch(text)
                     }}/> 
-                    <Text style={{marginLeft:16}}>Thriller</Text>
+                    <Text style={{marginLeft:16}}>Fantasy</Text>
 
                     
                     <Switch style={{marginLeft:16}} value={this.state.switchOther}  
