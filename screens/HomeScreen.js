@@ -9,7 +9,6 @@ import * as firebase from 'firebase';
 
 import '@firebase/firestore';
 import ConfigFirebase from './ConfigFirebase';
-import ModalFilterScreen from './ModalFilterScreen';
 
 
 export default class Homescreen extends Component {
@@ -17,16 +16,14 @@ export default class Homescreen extends Component {
     super(props);
     this.state = {
       list:[],
-      fetched: this.props.navigation.getParam('fetch',false),
+      fetched: false,
       searchText:this.props.navigation.getParam('search',""),
     }
     this.fetchFeed = this.fetchFeed.bind(this);
     this.searchTextChanged = this.searchTextChanged.bind(this);
-    console.log(this.props.navigation.getParam('search',""));
   }
 
   searchTextChanged = (text) =>{
-    console.log("sTC");
     this.setState({
       searchText: text
     })
@@ -36,19 +33,22 @@ export default class Homescreen extends Component {
   // I am using a second fecthFeed because I want the other feed to limit by X and if I used this func with a limit not all 
   // data where doc.data()['title'].includes(this.state.searchText) will show. Only if it is true in the first X entires.
   fetchFeedFromButton = (e) => {
+      if(this.state.searchText == "")
+        return ;
       const dbh = firebase.firestore();
-      console.log(dbh.collection('stories'));
       //get filter params for querey
       let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stroies').orderBy("createdAt", "desc"));
       let allStories = storiesRef.get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-            console.log("data got");
             //I want to replicate the LIKE operator from SQL this was the simplest way to do so but it also gets every story from firebase.
             //This is a lot of reads and I want to find a way to reduce this.
             //Simplest option seems to be use the library Querybase which I think will let me do something like this ' WHERE title LIKE Sto% '
             //The trade off here is I can't check if title contians a value, only starts with a value. So no ' WHERE title LIKE %to% '.
             //Another option to try is elastic search (double check name and do more research on this).
+
+            //TODO: limit to 5 and loadMore: I still want this to be limited to 5 items at a time. So I will need a counter in the forEach statement 
+            //to count to 5 then add a loadMore functionality to loadMore data when needed. 
           if( doc.data()['title'].includes(this.state.searchText)){ 
             this.setState({
               list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], body : doc.data()['body'],  time: doc.data()['createdAt'] }],
@@ -73,13 +73,11 @@ export default class Homescreen extends Component {
     .then(snapshot => {
       snapshot.forEach(doc => {
         
-//if( doc.data()['title'].includes(this.state.searchText)){
           this.setState({
             list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], body : doc.data()['body'],  time: doc.data()['createdAt'] }],
             fetched: true,
           },
           ); 
-      //  }
       });
     })
     .catch(err => {
@@ -93,8 +91,12 @@ render() {
   
 
   if(!this.state.fetched){
-    this.fetchFeed();
 
+    if(this.state.searchText=="")
+      this.fetchFeed();
+    else
+      this.fetchFeedFromButton();
+      
     //Return view with progress bar
     return(
       <View>
@@ -125,12 +127,12 @@ render() {
                   search: this.state.searchText,
                 });
                 }} title="Filter"/>
-                <Button style={{flex:1, textAlign:'center'}} onPress={() => {
+                <Button color = "green" style={{flex:1, textAlign:'center'}} onPress={() => {
                   console.log("buttom pressed   " + this.state.searchText);
                   this.setState({
                     list:[],
+                    fetched:false,
                   })
-                  this.fetchFeedFromButton();
                 }} title="Search"/>
           </View>
         </View>
