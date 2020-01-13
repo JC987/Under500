@@ -22,7 +22,7 @@ export default class ModalFilterScreen extends React.Component{
             selectedCat: 'all',
         }
         
-
+        console.log(this.props.navigation.getParam('search',""));
         this.switchNewst = this.switchNewst.bind(this);
         this.switchAdv = this.switchAdv.bind(this);
         this.switchComedy = this.switchComedy.bind(this);
@@ -147,6 +147,7 @@ export default class ModalFilterScreen extends React.Component{
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'Home', params: {
                 filter: storiesRef,
+                search: this.props.navigation.getParam('search',""),
                 fetch: true
                 } 
             } )],

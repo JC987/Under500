@@ -26,7 +26,7 @@ const AppNavigator = createStackNavigator({
 const AppContainer = createAppContainer(AppNavigator);*/
 
 function Box({title, author, body, summary, nav, time}){
-    console.log("nav \n" + nav);
+    //console.log("nav \n" + nav);
     let auth = "by "+ author + ":   " + time;
     return(
     <View style={{flex: 10, flexDirection: 'column', justifyContent: 'flex-start'}}>
