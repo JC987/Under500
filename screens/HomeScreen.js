@@ -69,18 +69,19 @@ export default class Homescreen extends Component {
 */
 
   fetchFeedSearched = (e) => {
+    console.log("fetchFeedSearched");
     if(this.state.searchText == "")
       return ;
       const dbh = firebase.firestore();
       const fSQL = new FireSQL.FireSQL(dbh);
-    let cat = this.props.navigation.getParam('category', 'all');
-    let s = '';
-    if( cat != 'all')
-       s = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" AND category LIKE "' + cat + '" ORDER BY titleUpper LIMIT 2';
-    else
-       s = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" LIMIT 2';
-    console.log(cat);
-    console.log(s);
+      let cat = this.props.navigation.getParam('category', 'all');
+      let s = '';
+      if( cat != 'all')
+        s = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" AND category LIKE "' + cat + '" ORDER BY titleUpper LIMIT 2';
+      else
+        s = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" LIMIT 2';
+      console.log(cat);
+      console.log(s);
       fSQL.query(s).then(documents => {
 //      console.log(documents);
       documents.forEach(doc => {
