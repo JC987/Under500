@@ -148,7 +148,8 @@ export default class ModalFilterScreen extends React.Component{
             actions: [NavigationActions.navigate({ routeName: 'Home', params: {
                 filter: storiesRef,
                 search: this.props.navigation.getParam('search',""),
-                fetch: true
+                fetch: true,
+                category: this.state.selectedCat,
                 } 
             } )],
         });
