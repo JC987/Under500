@@ -139,13 +139,16 @@ export default class ModalComposeScreen extends React.Component {
     let tmp_t = this.state.title;
     let tmp_s = this.state.summary;
     let tmp_b = this.state.story.split("\n");
+    let upper = String(tmp_t).toUpperCase();
       
     // Add a new document with a generated id.
     let addDoc = db.collection('stroies').add({
         title: tmp_t,
+        titleUpper: upper,
         summary: tmp_s,
         body:tmp_b,
         author:tmp_a,
+        category:"other",
         createdAt: new Date().toISOString(),
     }).then(ref => {
         console.log('Added document with ID: ', ref.id);
