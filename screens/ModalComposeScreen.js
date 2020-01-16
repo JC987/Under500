@@ -9,24 +9,28 @@ export default class ModalComposeScreen extends React.Component {
     constructor(props){
         super(props);
         this.state = {
+            storyChar:0,
             storyLength: 0,
             story:'',
+            summaryChar:0,
             summaryLength: 0,
             summary:'',
+            titleChar:0,
             titleLength: 0,
             title:'',
             switchOther: false,
             switchAdventure: false,
             switchComedy: false,
-            switchPoem: false,
-            switchFiction: false,
+         //   switchPoem: false,
+         //   switchFiction: false,
             switchHorror: false,
             switchMystery: false,
-            switchParody: false,
-            switchNonFiction: false,
+         //   switchParody: false,
+         //   switchNonFiction: false,
             switchSciFi: false,
             switchRomance: false,
-            switchThriller: false,
+            switchFantasy: false,
+         //   switchThriller: false,
             body:[],
         }
         this.handleStory = this.handleStory.bind(this);
@@ -61,7 +65,8 @@ export default class ModalComposeScreen extends React.Component {
         
         this.setState({
             storyLength: numOfWords - 1,
-            story: s
+            story: s,
+            storyChar: this.state.storyChar + 1
         })
     }
 
@@ -89,7 +94,8 @@ export default class ModalComposeScreen extends React.Component {
         
         this.setState({
             summaryLength: numOfWords - 1,
-            summary: s
+            summary: s,
+            summaryChar: this.state.summaryChar + 1,
         })
     }
 
@@ -117,16 +123,55 @@ export default class ModalComposeScreen extends React.Component {
         
         this.setState({
             titleLength: numOfWords - 1,
-            title: s
+            title: s,
+            titleChar: this.state.titleChar + 1,
         })
    // }
     }
     
     handleSwitch = (e) =>{
-        console.log(e);
-        console.log(e.text)
         this.setState({
             switchValue: !this.state.switchValue
+        })
+    }
+    handleSwitchAdventure = (e) =>{
+        this.setState({
+            switchAdventure: !this.state.switchAdventure
+        })
+    }
+    handleSwitchComedy = (e) =>{
+        this.setState({
+            switchComedy: !this.state.switchComedy
+        })
+    }
+    handleSwitchHorror = (e) =>{
+        this.setState({
+            switchHorror: !this.state.switchHorror
+        })
+    }
+    handleSwitchMystery = (e) =>{
+        this.setState({
+            switchMystery: !this.state.switchMystery
+        })
+    }
+    handleSwitchFantasy = (e) =>{
+        this.setState({
+            switchFantasy: !this.state.switchFantasy
+        })
+    }
+    handleSwitchSciFi = (e) =>{
+        this.setState({
+            switchSciFi: !this.state.switchSciFi
+        })
+    }
+    handleSwitchRomance = (e) =>{
+        this.setState({
+            switchRomance: !this.state.switchRomance
+        })
+    }
+    handleSwitchOther = (e) =>{
+        this.setState({
+            switchOther: !this.state.switchOther
         })
     }
 
@@ -161,17 +206,17 @@ export default class ModalComposeScreen extends React.Component {
         <View style={{ flex: 1}}>
             <ScrollView>
             <View style={{height:100}}>
-                <Text style={{fontSize:24}}>{this.state.titleLength} / 10</Text>
+      <Text style={{fontSize:20}}>   {this.state.titleLength} / 10 : {this.state.titleChar} / 100 Characters</Text>
                 <TextInput style={{ backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, flex:9}} value = {this.state.title} onChangeText = {(text) =>this.handleTitle(text)} multiline = {false} maxLength = {100} placeholder="Enter your story's title"/>
             </View>
 
             <View style={{height:150}}>
-            <Text style={{fontSize:24}}>{this.state.summaryLength} / 50</Text>
+            <Text style={{fontSize:20}}>   {this.state.summaryLength} / 50 Words : {this.state.summaryChar} / 500 Characters</Text>
                 <TextInput style={{ backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, borderWidth:1, flex:9}} value = {this.state.summary} onChangeText ={(text => this.handleSummary(text))} multiline = {true} maxLength = {500} placeholder="Enter a brief summary of your story. Under 50 words!"/>
             </View>
 
             <View style={{height:500}}>
-                <Text style={{fontSize:24}}>{this.state.storyLength} / 500</Text>
+                <Text style={{fontSize:20}}>   {this.state.storyLength} / 500 Words : {this.state.storyChar} / 5000 Characters</Text>
                 <TextInput style={{backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, flex:9, textAlignVertical:'top'}} value = {this.state.story} onChangeText = {(text) => this.handleStory(text)} multiline = {true} maxLength = {5000} placeholder="Write your story"/>    
             </View>     
           
@@ -182,9 +227,11 @@ export default class ModalComposeScreen extends React.Component {
                 
                 <View style={{flexDirection:'row', flexWrap:'wrap',margin:8}}>
                     <View style={{flexDirection:'row'}}>
-                        <Switch style={{marginLeft:16}}></Switch>
+                        <Switch style={{marginLeft:16}} value={this.state.switchAdventure}  
+                    onValueChange ={() => {this.handleSwitchAdventure()}}></Switch>
                         <Text style={{marginLeft:16}}>Adventure</Text>
-                        <Switch style={{marginLeft:16}}></Switch>
+                        <Switch style={{marginLeft:16}} value={this.state.switchComedy}  
+                    onValueChange ={() => {this.handleSwitchComedy()}}></Switch>
                         <Text style={{marginLeft:16}}>Comedy</Text>
              
                     </View>
@@ -193,29 +240,40 @@ export default class ModalComposeScreen extends React.Component {
                
                
                 <View style={{flexDirection:'row'}}>
-                    <Switch style={{marginLeft:16}}></Switch>
+                    <Switch style={{marginLeft:16}} value={this.state.switchHorror}  
+                    onValueChange ={() => {this.handleSwitchHorror()}}></Switch>
                     <Text style={{marginLeft:16}}>Horror</Text>
 
-                    <Switch style={{marginLeft:16}}></Switch>
+                    <Switch style={{marginLeft:16}} value={this.state.switchSciFi}  
+                    onValueChange ={() => {this.handleSwitchSciFi()}}></Switch>
                     <Text style={{marginLeft:16}}>Science-Ficition</Text>
+                    
+                </View>
+
+                <View style={{flexDirection:'row'}}>
+                    <Switch style={{marginLeft:16}} value={this.state.switchMystery}  
+                    onValueChange ={() => {this.handleSwitchMystery()}}></Switch>
+                    <Text style={{marginLeft:16}}>Mystery</Text>
+
+                    <Switch style={{marginLeft:16}} value={this.state.switchRomance}  
+                    onValueChange ={() => {this.handleSwitchRomance()}}></Switch>
+                    <Text style={{marginLeft:16}}>Romance</Text>
                     
                 </View>
                       
             
                 <View style={{flexDirection:'row'}}>
                  
-                <Switch style={{marginLeft:16}} value={this.state.switchValue}  
-                    onValueChange ={(text = "OTHER")=>{this.handleSwitch(text)
-                    }}/> 
+                <Switch style={{marginLeft:16}} value={this.state.switchFantasy}  
+                    onValueChange ={() => {this.handleSwitchFantasy()}}/> 
                     <Text style={{marginLeft:16}}>Fantasy</Text>
 
                     
                     <Switch style={{marginLeft:16}} value={this.state.switchOther}  
-                    onValueChange ={()=>{this.handleSwitch(text)
+                    onValueChange ={()=>{this.handleSwitchOther()
                     }}/> 
                     <Text style={{marginLeft:16}}>OTHER</Text>
-                    <CheckBox name= "cat"  value={this.state.switchOther}  
-                    onValueChange ={()=>{this.handleSwitch(name)}} ></CheckBox>
+
                 </View>
 
                 </View>
@@ -225,6 +283,7 @@ export default class ModalComposeScreen extends React.Component {
             onPress={() => {
                this.handleSubmit();
             }}
+            color = "darkorange"
             title="Submit!"
           />
           </ScrollView>

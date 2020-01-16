@@ -50,6 +50,8 @@ export default class ModalFilterScreen extends React.Component{
             switchFantasy: false,
             switchSciFi: false,
             switchOther: false,
+            switchMystery: false,
+            switchRomance: false,
             switchAll: this.state.switchAdv,
             selectedCat: (this.state.switchAdv) ? "all" : "adventure"
         })
@@ -62,6 +64,8 @@ export default class ModalFilterScreen extends React.Component{
             switchFantasy: false,
             switchSciFi: false,
             switchOther: false,
+            switchMystery: false,
+            switchRomance: false,
             switchAll: this.state.switchComedy,
             selectedCat: (this.state.switchComedy) ? "all" : 'comedy',
         })
@@ -74,6 +78,8 @@ export default class ModalFilterScreen extends React.Component{
             switchFantasy: false,
             switchSciFi: false,
             switchOther: false,
+            switchMystery: false,
+            switchRomance: false,
             switchAll: this.state.switchHorror,
             selectedCat: (this.state.switchHorror) ? "all" : 'horror',
         })
@@ -86,6 +92,8 @@ export default class ModalFilterScreen extends React.Component{
             switchHorror: false,
             switchSciFi: false,
             switchOther: false,
+            switchMystery: false,
+            switchRomance: false,
             switchAll:  this.state.switchFantasy,
             selectedCat: (this.state.switchFantasy) ? "all" : 'fantasy',
         })
@@ -98,6 +106,8 @@ export default class ModalFilterScreen extends React.Component{
             switchHorror: false,
             switchFantasy: false,
             switchOther: false,
+            switchMystery: false,
+            switchRomance: false,
             switchAll:  this.state.switchSciFi,
             selectedCat: (this.state.switchSciFi) ? "all" : 'scifi',
         })
@@ -110,8 +120,40 @@ export default class ModalFilterScreen extends React.Component{
             switchHorror: false,
             switchFantasy: false,
             switchSciFi: false,
+            switchMystery: false,
+            switchRomance: false,
             switchAll: this.state.switchOther,
             selectedCat: (this.state.switchOther) ? "all" : 'other',
+        })
+    }
+
+    switchRomance = (e) =>{
+        this.setState({
+            switchRomance: !this.state.switchRomance,
+            switchAdv: false,
+            switchComedy: false,
+            switchHorror: false,
+            switchFantasy: false,
+            switchSciFi: false,
+            switchMystery: false,
+            switchOther: false,
+            switchAll: this.state.switchRomance,
+            selectedCat: (this.state.switchOther) ? "all" : 'other',
+        })
+    }
+
+    switchMystery = (e) =>{
+        this.setState({
+            switchMystery: !this.state.switchMystery,
+            switchAdv: false,
+            switchComedy: false,
+            switchHorror: false,
+            switchFantasy: false,
+            switchSciFi: false,
+            switchOther: false,
+            switchRomance: false,
+            switchAll: this.state.switchMystery,
+            selectedCat: (this.state.switchMystery) ? "all" : 'other',
         })
     }
 
@@ -173,6 +215,12 @@ export default class ModalFilterScreen extends React.Component{
                     </Text>
                     <Switch style={{marginLeft:16}} value={this.state.switchNewst}  
                     onValueChange ={(e)=>{this.switchNewst(e)}}/>
+
+                    <Text style = {{marginLeft: 32, width:120}}>
+                        Favourite
+                    </Text>
+                    <Switch style={{marginLeft:16}} value={this.state.switchNewst}  
+                        onValueChange ={(e)=>{this.switchNewst(e)}}/>
                 </View>
                 
                 <View style ={{flexDirection:'row', margin:32}}>
@@ -225,15 +273,32 @@ export default class ModalFilterScreen extends React.Component{
                 </View>
                 <View style ={{flexDirection:'row'}}>
                     <Text style = {{width:120}}>
+                     Show Romance
+                    </Text>
+                    <Switch style={{marginLeft:16}} value={this.state.switchRomance}  
+                    onValueChange ={(e)=>{this.switchRomance(e)}}/>
+                </View>
+                <View style ={{flexDirection:'row'}}>
+                    <Text style = {{width:120}}>
+                     Show Mystery
+                    </Text>
+                    <Switch style={{marginLeft:16}} value={this.state.switchMystery}  
+                    onValueChange ={(e)=>{this.switchMystery(e)}}/>
+                </View>
+                <View style ={{flexDirection:'row'}}>
+                    <Text style = {{width:120}}>
                     Show Other
                     </Text>
                     <Switch style={{marginLeft:16}} value={this.state.switchOther}  
                     onValueChange ={(e)=>{this.switchOther(e)}}/>
                 </View>
+
+                <View style = {{marginTop:16, justifyContent:'center', alignItems:'center'}}>
+                    <Button color = "darkorange" title = "apply!" onPress={() => {
+                        this.apply()
+                    }}/>
+                </View>
                 
-                <Button title = "apply!" onPress={() => {
-                    this.apply()
-                }}/>
             </View>
             
         );
