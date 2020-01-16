@@ -216,12 +216,19 @@ export default class ModalFilterScreen extends React.Component{
                     <Switch style={{marginLeft:16}} value={this.state.switchNewst}  
                     onValueChange ={(e)=>{this.switchNewst(e)}}/>
 
-                    <Text style = {{marginLeft: 32, width:120}}>
+                        
+                </View>
+
+                <View style ={{flexDirection:'row'}}>
+                    
+                <Text style = {{ width:120}}>
                         Favourite
                     </Text>
                     <Switch style={{marginLeft:16}} value={this.state.switchNewst}  
                         onValueChange ={(e)=>{this.switchNewst(e)}}/>
+                        
                 </View>
+
                 
                 <View style ={{flexDirection:'row', margin:32}}>
                     <Text>
