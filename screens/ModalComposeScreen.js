@@ -66,7 +66,7 @@ export default class ModalComposeScreen extends React.Component {
         this.setState({
             storyLength: numOfWords - 1,
             story: s,
-            storyChar: this.state.storyChar + 1
+            storyChar: s.length
         })
     }
 
@@ -95,7 +95,7 @@ export default class ModalComposeScreen extends React.Component {
         this.setState({
             summaryLength: numOfWords - 1,
             summary: s,
-            summaryChar: this.state.summaryChar + 1,
+            summaryChar: s.length,
         })
     }
 
@@ -124,7 +124,7 @@ export default class ModalComposeScreen extends React.Component {
         this.setState({
             titleLength: numOfWords - 1,
             title: s,
-            titleChar: this.state.titleChar + 1,
+            titleChar: s.length
         })
    // }
     }
@@ -206,17 +206,17 @@ export default class ModalComposeScreen extends React.Component {
         <View style={{ flex: 1}}>
             <ScrollView>
             <View style={{height:100}}>
-      <Text style={{fontSize:20}}>   {this.state.titleLength} / 10 : {this.state.titleChar} / 100 Characters</Text>
+      <Text style={{fontSize:20}}>   {this.state.titleLength} / 10 {"\n  "} {this.state.titleChar} / 100 Characters</Text>
                 <TextInput style={{ backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, flex:9}} value = {this.state.title} onChangeText = {(text) =>this.handleTitle(text)} multiline = {false} maxLength = {100} placeholder="Enter your story's title"/>
             </View>
 
             <View style={{height:150}}>
-            <Text style={{fontSize:20}}>   {this.state.summaryLength} / 50 Words : {this.state.summaryChar} / 500 Characters</Text>
+            <Text style={{fontSize:20}}>   {this.state.summaryLength} / 50 Words {"\n  "} {this.state.summaryChar} / 500 Characters</Text>
                 <TextInput style={{ backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, borderWidth:1, flex:9}} value = {this.state.summary} onChangeText ={(text => this.handleSummary(text))} multiline = {true} maxLength = {500} placeholder="Enter a brief summary of your story. Under 50 words!"/>
             </View>
 
             <View style={{height:500}}>
-                <Text style={{fontSize:20}}>   {this.state.storyLength} / 500 Words : {this.state.storyChar} / 5000 Characters</Text>
+                <Text style={{fontSize:20}}>   {this.state.storyLength} / 500 Words {"\n  "} {this.state.storyChar} / 5000 Characters</Text>
                 <TextInput style={{backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, flex:9, textAlignVertical:'top'}} value = {this.state.story} onChangeText = {(text) => this.handleStory(text)} multiline = {true} maxLength = {5000} placeholder="Write your story"/>    
             </View>     
           

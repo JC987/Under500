@@ -6,6 +6,7 @@ import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Login from './LoginScreen';
 import SignUp from './SignupScreen';
 import Box from '../components/Box';
+import ProgressBar from 'react-native-progress/Bar';
 export default class Aboutscreen extends React.Component {
   constructor(props){
     super(props);
@@ -122,10 +123,7 @@ export default class Aboutscreen extends React.Component {
 
                   </View>
                   
-                  
-                  
-                  
-                  {!this.state.showButton &&
+                 {!this.state.showButton &&
                    
                       
                     <View style = {{margin:16}}>
@@ -142,7 +140,8 @@ export default class Aboutscreen extends React.Component {
                     
                   
                   }
-                  
+                    
+                 
                   
                 </View>
             </View>
