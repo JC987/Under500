@@ -18,161 +18,171 @@ export default class ModalComposeScreen extends React.Component {
             titleChar:0,
             titleLength: 0,
             title:'',
-            switchOther: false,
+            switchOther: true,
             switchAdventure: false,
             switchComedy: false,
-         //   switchPoem: false,
-         //   switchFiction: false,
             switchHorror: false,
             switchMystery: false,
-         //   switchParody: false,
-         //   switchNonFiction: false,
             switchSciFi: false,
             switchRomance: false,
             switchFantasy: false,
-         //   switchThriller: false,
+            switchValue: "Other",
             body:[],
         }
-        this.handleStory = this.handleStory.bind(this);
-        this.handleSummary = this.handleSummary.bind(this);
-        this.handleTitle = this.handleTitle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSwitch = this.handleSwitch.bind(this);
     }
 
-    handleStory = (text) =>{
-        let spaces  = text.split(' ');
-        let newLines = text.split('\n');
-        let numOfWords = 0;
-        let s = '';
-
-        for(let i = 0; i < spaces.length; i++){
-            //count the number of words
-            if(spaces[i] != "")
-                numOfWords++;
-        }
-        //count a new line as a word. I do this so that user can not surpase 500 words by creating new lines
-        numOfWords += newLines.length;
-
-        //501 because the very first line would count as a word and I don't want to count it
-        if(numOfWords <= 501){
-            s = text;
-        }
-        else{
-            s = this.state.story;
-            numOfWords--;
-        }
-        
-        this.setState({
-            storyLength: numOfWords - 1,
-            story: s,
-            storyChar: s.length
-        })
-    }
-
-    handleSummary = (text) =>{
-        //same situation apples for handleSummary as handleStory
-        let spaces  = text.split(' ');
-        let newLines = text.split('\n');
-        let numOfWords = 0;
-        let s = '';
-
-        for(let i = 0; i < spaces.length; i++){
-            if(spaces[i] != "")
-            numOfWords++;
-        }
-        
-        numOfWords += newLines.length;
-
-        if(numOfWords <= 51){
-            s = text;
-        }
-        else{
-            s = this.state.summary;
-            numOfWords--;
-        }
-        
-        this.setState({
-            summaryLength: numOfWords - 1,
-            summary: s,
-            summaryChar: s.length,
-        })
-    }
-
-    handleTitle = (text) =>{
-        //same situation apples for handleSummary as handleTitle
-        let spaces  = text.split(' ');
-        let newLines = text.split('\n');
-        let numOfWords = 0;
-        let s = '';
-
-        for(let i = 0; i < spaces.length; i++){
-            if(spaces[i] != "")
-            numOfWords++;
-        }
-        
-        numOfWords += newLines.length;
-
-        if(numOfWords <= 11){
-            s = text;
-        }
-        else{
-            s = this.state.title;
-            numOfWords--;
-        }
-        
-        this.setState({
-            titleLength: numOfWords - 1,
-            title: s,
-            titleChar: s.length
-        })
-   // }
-    }
+   
     
-    handleSwitch = (e) =>{
-        this.setState({
-            switchValue: !this.state.switchValue
-        })
-    }
+    
     handleSwitchAdventure = (e) =>{
         this.setState({
-            switchAdventure: !this.state.switchAdventure
+            switchAdventure: !this.state.switchAdventure,
+            switchComedy:false,
+            switchFantasy:false,
+            switchHorror:false,
+            switchMystery:false,
+            switchOther:false,
+            switchRomance:false,
+            switchSciFi:false,
+            switchValue:"adventure"
         })
     }
     handleSwitchComedy = (e) =>{
         this.setState({
-            switchComedy: !this.state.switchComedy
+            switchComedy: !this.state.switchComedy,
+            switchAdventure:false,
+            switchFantasy:false,
+            switchHorror:false,
+            switchMystery:false,
+            switchOther:false,
+            switchRomance:false,
+            switchSciFi:false,
+            switchValue:"comedy"
         })
     }
     handleSwitchHorror = (e) =>{
         this.setState({
-            switchHorror: !this.state.switchHorror
+            switchHorror: !this.state.switchHorror,
+            switchAdventure:false,
+            switchComedy:false,
+            switchFantasy:false,
+            switchMystery:false,
+            switchOther:false,
+            switchRomance:false,
+            switchSciFi:false,
+            switchValue:"horror"
         })
     }
     handleSwitchMystery = (e) =>{
         this.setState({
-            switchMystery: !this.state.switchMystery
+            switchMystery: !this.state.switchMystery,
+            switchAdventure:false,
+            switchComedy:false,
+            switchFantasy:false,
+            switchHorror:false,
+            switchOther:false,
+            switchRomance:false,
+            switchSciFi:false,
+            switchValue:"mystery"
         })
     }
     handleSwitchFantasy = (e) =>{
         this.setState({
-            switchFantasy: !this.state.switchFantasy
+            switchFantasy: !this.state.switchFantasy,
+            switchAdventure:false,
+            switchComedy:false,
+            switchHorror:false,
+            switchMystery:false,
+            switchOther:false,
+            switchRomance:false,
+            switchSciFi:false,
+            switchValue:"fantasy"
         })
     }
     handleSwitchSciFi = (e) =>{
         this.setState({
-            switchSciFi: !this.state.switchSciFi
+            switchSciFi: !this.state.switchSciFi,
+            switchAdventure:false,
+            switchComedy:false,
+            switchFantasy:false,
+            switchHorror:false,
+            switchMystery:false,
+            switchOther:false,
+            switchRomance:false,
+            switchValue:"scifi"
         })
     }
     handleSwitchRomance = (e) =>{
         this.setState({
-            switchRomance: !this.state.switchRomance
+            switchRomance: !this.state.switchRomance,
+            switchAdventure:false,
+            switchComedy:false,
+            switchFantasy:false,
+            switchHorror:false,
+            switchMystery:false,
+            switchOther:false,
+            switchSciFi:false,
+            switchValue:"romance"
         })
     }
     handleSwitchOther = (e) =>{
         this.setState({
-            switchOther: !this.state.switchOther
+            switchOther: !this.state.switchOther,
+            switchAdventure:false,
+            switchComedy:false,
+            switchFantasy:false,
+            switchHorror:false,
+            switchMystery:false,
+            switchRomance:false,
+            switchSciFi:false,
+            switchValue:"other"
         })
+    }
+
+    handleTextInput = (text, currentText, maxWords) =>{
+                //same situation apples for handleSummary as handleTitle
+                let spaces  = text.split(' ');
+                let newLines = text.split('\n');
+                let numOfWords = 0;
+                let s = '';
+        
+                for(let i = 0; i < spaces.length; i++){
+                    if(spaces[i] != "")
+                    numOfWords++;
+                }
+                
+                numOfWords += newLines.length;
+        
+                if(numOfWords <= maxWords+1){
+                    s = text;
+                }
+                else{
+                    s = this.state[currentText]
+                    numOfWords--;
+                }
+                if(currentText == "title"){
+                    this.setState({
+                        titleLength: numOfWords - 1,
+                        title: s,
+                        titleChar: s.length
+                    })
+                }
+                else if (currentText == "summary"){
+                    this.setState({
+                        summaryLength: numOfWords - 1,
+                        summary: s,
+                        summaryChar: s.length,
+                    })
+                }
+                else{
+                    this.setState({
+                        storyLength: numOfWords - 1,
+                        story: s,
+                        storyChar: s.length
+                    })
+                }
+               
     }
 
     handleSubmit = (e) =>{
@@ -193,7 +203,7 @@ export default class ModalComposeScreen extends React.Component {
         summary: tmp_s,
         body:tmp_b,
         author:tmp_a,
-        category:"other",
+        category:this.state.switchValue,
         createdAt: new Date().toISOString(),
     }).then(ref => {
         console.log('Added document with ID: ', ref.id);
@@ -206,18 +216,18 @@ export default class ModalComposeScreen extends React.Component {
         <View style={{ flex: 1}}>
             <ScrollView>
             <View style={{height:100}}>
-      <Text style={{fontSize:20}}>   {this.state.titleLength} / 10 {"\n  "} {this.state.titleChar} / 100 Characters</Text>
-                <TextInput style={{ backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, flex:9}} value = {this.state.title} onChangeText = {(text) =>this.handleTitle(text)} multiline = {false} maxLength = {100} placeholder="Enter your story's title"/>
+                <Text style={{fontSize:20}}>   {this.state.titleLength} / 10 {"\n  "} {this.state.titleChar} / 100 Characters</Text>
+                <TextInput style={{ backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, flex:9}} value = {this.state.title} onChangeText = {(text) => this.handleTextInput(text,"title",10)} multiline = {false} maxLength = {100} placeholder="Enter your story's title"/>
             </View>
 
             <View style={{height:150}}>
-            <Text style={{fontSize:20}}>   {this.state.summaryLength} / 50 Words {"\n  "} {this.state.summaryChar} / 500 Characters</Text>
-                <TextInput style={{ backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, borderWidth:1, flex:9}} value = {this.state.summary} onChangeText ={(text => this.handleSummary(text))} multiline = {true} maxLength = {500} placeholder="Enter a brief summary of your story. Under 50 words!"/>
+                <Text style={{fontSize:20}}>   {this.state.summaryLength} / 50 Words {"\n  "} {this.state.summaryChar} / 500 Characters</Text>
+                <TextInput style={{ backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, borderWidth:1, flex:9}} value = {this.state.summary} onChangeText ={(text => this.handleTextInput(text,"summary",50))} multiline = {true} maxLength = {500} placeholder="Enter a brief summary of your story. Under 50 words!"/>
             </View>
 
             <View style={{height:500}}>
                 <Text style={{fontSize:20}}>   {this.state.storyLength} / 500 Words {"\n  "} {this.state.storyChar} / 5000 Characters</Text>
-                <TextInput style={{backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, flex:9, textAlignVertical:'top'}} value = {this.state.story} onChangeText = {(text) => this.handleStory(text)} multiline = {true} maxLength = {5000} placeholder="Write your story"/>    
+                <TextInput style={{backgroundColor: '#fff', borderWidth:1, margin: 8, padding: 4, flex:9, textAlignVertical:'top'}} value = {this.state.story} onChangeText = {(text) => this.handleTextInput(text,"body",500)} multiline = {true} maxLength = {5000} placeholder="Write your story"/>    
             </View>     
           
             <View>
@@ -234,7 +244,7 @@ export default class ModalComposeScreen extends React.Component {
                     onValueChange ={() => {this.handleSwitchComedy()}}></Switch>
                         <Text style={{marginLeft:16}}>Comedy</Text>
              
-                    </View>
+                </View>
                     
                     
                
@@ -272,7 +282,7 @@ export default class ModalComposeScreen extends React.Component {
                     <Switch style={{marginLeft:16}} value={this.state.switchOther}  
                     onValueChange ={()=>{this.handleSwitchOther()
                     }}/> 
-                    <Text style={{marginLeft:16}}>OTHER</Text>
+                    <Text style={{marginLeft:16}}>Other</Text>
 
                 </View>
 
