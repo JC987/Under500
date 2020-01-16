@@ -9,6 +9,7 @@ import * as firebase from 'firebase';
 
 import '@firebase/firestore';
 import ConfigFirebase from './ConfigFirebase';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 export default class Homescreen extends Component {
@@ -69,7 +70,6 @@ export default class Homescreen extends Component {
 */
 
   fetchFeedSearched = (e) => {
-    console.log("fetchFeedSearched");
     if(this.state.searchText == "")
       return ;
       const dbh = firebase.firestore();
@@ -83,9 +83,7 @@ export default class Homescreen extends Component {
       console.log(cat);
       console.log(s);
       fSQL.query(s).then(documents => {
-//      console.log(documents);
       documents.forEach(doc => {
-//        console.log(doc);
         this.setState({
           list: [...this.state.list, {title : doc['title'], author : doc['author'], summary : doc['summary'], body : doc['body'],  time: doc['createdAt'] }],
           fetched: true,
@@ -109,7 +107,7 @@ export default class Homescreen extends Component {
 
     //get filter params for querey
     let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stroies').orderBy('createdAt', 'desc'));
-    let allStories = storiesRef.limit(5).get()
+    let allStories = storiesRef.limit(1).get()
     .then(snapshot => {
       snapshot.forEach(doc => {
         
@@ -140,15 +138,27 @@ render() {
     //Return view with progress bar
     return(
       <View>
-        <View style={{ flex: 2, backgroundColor:'#aaa', }}>
-          <View style={{height:75, flexDirection:'row'}}>
-            <TextInput style={{height:50, backgroundColor: '#fff', margin: 8, padding: 4, flex:9}}  placeholder="Loading data..."/>
-            <View style={{ justifyContent: 'center'}}>   
-              <Button style={{flex:1, textAlign:'center'}} onPress={() => {
-                  this.props.navigation.navigate("ModalFilter");
-                  }} title="Filter"/>
+        <View style={{height:75, flexDirection:'row'}}>
+        <TextInput style={{borderWidth:1,height:50, backgroundColor: '#fff', margin:4, padding: 0, flex:9}} value={this.state.searchText} onChangeText = {(text) =>{this.searchTextChanged(text)}} placeholder=" Loading data..."/>
+            <View style = {{ height:50, marginTop: 8, padding: 2}}>
+                    <Button color = "#0ca379" style={{flex:1, textAlign:'center', height:50}} onPress={() => {
+                      console.log("buttom pressed   " + this.state.searchText);
+                      this.setState({
+                        list:[],
+                        fetched:false,
+                      })
+                    }} title="Search"/>
             </View>
-          </View>
+
+            <View style = {{ marginTop: 8, padding: 2}}>
+             <Button color = "darkorange" style={{flex:1, textAlign:'center'}} onPress={() => {
+                this.props.navigation.navigate("ModalFilter", {
+                  search: this.state.searchText,
+                });
+                }} title="Filter"/>
+
+            </View>
+
         </View>
         <ProgressBar width={null} indeterminate={true} />
       </View>
@@ -158,23 +168,29 @@ render() {
   else{
     //return view with feed
     return (
-      <View style={{ flex: 2, backgroundColor:'#aaa' }}>
+      <ScrollView>
+      <View style={{ flex: 2, backgroundColor:'#fff' }}>
         <View style={{height:75, flexDirection:'row'}}>
-        <TextInput style={{height:50, backgroundColor: '#fff', margin: 8, padding: 4, flex:9}} value={this.state.searchText} onChangeText = {(text) =>{this.searchTextChanged(text)}} placeholder="Search for a story"/>
-            <View style={{ justifyContent: 'center'}}>   
-             <Button style={{flex:1, textAlign:'center'}} onPress={() => {
+        <TextInput style={{borderWidth:1,height:50, backgroundColor: '#fff', margin:4, padding: 0, flex:9}} value={this.state.searchText} onChangeText = {(text) =>{this.searchTextChanged(text)}} placeholder=" Search for a story"/>
+            <View style = {{ height:50, marginTop: 8, padding: 2}}>
+                    <Button  color = "#0ca379" style={{flex:1, textAlign:'center', height:50}} onPress={() => {
+                      console.log("buttom pressed   " + this.state.searchText);
+                      this.setState({
+                        list:[],
+                        fetched:false,
+                      })
+                    }} title="Search"/>
+            </View>
+
+            <View style = {{ marginTop: 8, padding: 2}}>
+             <Button color = "darkorange" style={{flex:1, textAlign:'center'}} onPress={() => {
                 this.props.navigation.navigate("ModalFilter", {
                   search: this.state.searchText,
                 });
                 }} title="Filter"/>
-                <Button color = "green" style={{flex:1, textAlign:'center'}} onPress={() => {
-                  console.log("buttom pressed   " + this.state.searchText);
-                  this.setState({
-                    list:[],
-                    fetched:false,
-                  })
-                }} title="Search"/>
-          </View>
+
+            </View>
+
         </View>
         <FlatList
           refreshing = {true}
@@ -182,6 +198,7 @@ render() {
           renderItem={({item}) => <Box title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} time = {item.time} /> }
         />
       </View>
+      </ScrollView>
     );
   }
 }

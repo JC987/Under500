@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Button, View, Text, TextInput, KeyboardAvoidingView, FlatList } from 'react-native';
 import * as firebase from 'firebase';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Login from './LoginScreen';
 import SignUp from './SignupScreen';
 import Box from '../components/Box';
@@ -14,6 +14,8 @@ export default class Aboutscreen extends React.Component {
             switchText:"Or Sign Up",
             login:true,
             list:[],
+            showButton:true,
+            fetched:false,
         }
 
         this.signOut = this.signOut.bind(this);
@@ -21,7 +23,6 @@ export default class Aboutscreen extends React.Component {
         this.getStories = this.getStories.bind(this);
 
         
-        this.getStories();
     }
 
   signOut = (e) =>{
@@ -36,7 +37,22 @@ export default class Aboutscreen extends React.Component {
   }
 
   getStories = (e) => {
+    if(!this.state.showButton){
+      console.log("if s " + this.state.showButton);
+      this.setState({
+        showButton: true
+      })
+      return;
+    }
+    if(this.state.fetched){
+      this.setState({
+        showButton: false,
+      })
+      return;
+    }
+
     
+    console.log("qwer " + this.state.showButton);
     let user = firebase.auth().currentUser;
     if(user !== null){
     const dbh = firebase.firestore();
@@ -48,6 +64,7 @@ export default class Aboutscreen extends React.Component {
           this.setState({
             list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], body : doc.data()['body']} ],
             fetched: true,
+            showButton: false,
           },
          // console.log("state saved"),
           
@@ -74,9 +91,9 @@ export default class Aboutscreen extends React.Component {
     if (user != null) {
         console.log("user loged in");
         return (
-          <View style={{ flex: 1, alignItems:'center', justifyContent: 'center' }}>
-            <Text >About Screen</Text>
-            <View style = {{backgroundColor:"pink",padding:32}}>
+          <ScrollView>
+          <View style={{ }}>
+            <View style = {{padding:32}}>
                 <Text style = {{textDecorationLine:'underline', fontSize:18}}>User Info:</Text>
                 <View>
                   <Text style = {{padding:16}}>
@@ -91,20 +108,46 @@ export default class Aboutscreen extends React.Component {
                     User ID : {user.uid}
                   </Text>
 
-                  <Text style = {{textDecorationLine:'underline', fontSize:18, padding:16}}>
-                    Below is your stories:
-                  </Text>
+                  <View style = {{justifyContent: 'center', alignItems: 'center'}}>
+
+                  <View style = {{marginTop:32, width: 300}}>
+                    <Button color = "darkorange" onPress = {() => {this.signOut()}} title = "Sign Out!"/>
+                  </View>
+
                   
-                  <FlatList
-                    refreshing = {true}
-                    data={this.state.list}
-                    renderItem={({item}) => <Box title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} /> }
-                  />
+                  <View style = {{marginTop:32, width: 300}}>
+                    <Button style = {{width: 100}} color = "#0ca379" title = {(this.state.showButton ? "Show your stories" : "Hide your stories")} onPress = {() => {this.getStories()}}/>
+
+                  </View>
+
+                  </View>
+                  
+                  
+                  
+                  
+                  {!this.state.showButton &&
+                   
+                      
+                    <View style = {{margin:16}}>
+                      <Text style = {{textDecorationLine:'underline', fontSize:18, padding:16}}>
+                        Below is your stories:
+                      </Text>
+                      <FlatList
+                        refreshing = {true}
+                        data={this.state.list}
+                        renderItem={({item}) => <Box title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} /> }
+                      />
+                    </View>
+                    
+                    
+                  
+                  }
+                  
                   
                 </View>
             </View>
-            <Button onPress = {() => {this.signOut()}} title = "Sign Out!"/>
           </View>
+          </ScrollView>
         )
     }
     else{

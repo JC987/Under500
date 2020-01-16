@@ -7,7 +7,7 @@ export default class Aboutscreen extends Component {
     
   render() {
       let b = this.props.navigation.getParam('body','no body');
-      let a = this.props.navigation.getParam('author','no author');
+      let a = " "+this.props.navigation.getParam('author','no author');
       let t = this.props.navigation.getParam('title','no title');
       let sum = this.props.navigation.getParam('summary','no summary');
       console.log("b is " + b);
@@ -20,8 +20,10 @@ export default class Aboutscreen extends Component {
         story += (b[i] + "\n");
     }
     return (
-       <View style={styles.container}>
         <ScrollView>
+
+            
+       <View style={styles.container}>
         <View style = {styles.title}>
            <Text style = {styles.titleText}>{t}</Text>
         </View>
@@ -43,21 +45,18 @@ export default class Aboutscreen extends Component {
         
         <View style = {styles.footer}>
             <View style ={{padding:20}}> 
-            <Button  title="Favourite" onPress = {() => {
-                console.log("FAV");
-            }}/> 
-            </View>
+                <Button color = "forestgreen" onPress = {()=>{this.props.navigation.navigate('Home');}}  title="Go Home"/>
+             </View>
             <View style ={{padding:20}}> 
-            <Button onPress = {()=>{this.props.navigation.navigate('Home');}}  title="Go Home"/>
-             </View>
-             <View style ={{padding:20}}>  
-            <Button  title="Download" onPress = {() => {
-                console.log("DL");
-            }}/>
-             </View>
+                <Button color = "darkorange" title="Favourite" onPress = {() => {
+                    console.log("FAV");
+                }}/> 
+            </View>
+            
+            
         </View>
-        </ScrollView>
       </View>
+      </ScrollView>
     )
   }
 }
@@ -97,5 +96,6 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'center',
         alignItems: 'center',
+        marginTop:64
     }
 })

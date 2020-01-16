@@ -29,16 +29,22 @@ function Box({title, author, body, summary, nav, time}){
     //console.log("nav \n" + nav);
     let auth = "by "+ author + ":   " + time;
     return(
-    <View style={{flex: 10, flexDirection: 'column', justifyContent: 'flex-start'}}>
+    <View style={{flexDirection: 'column', justifyContent: 'flex-start'}}>
         
-        <Card style = {{flex: 1}}>
-            <CardTitle  style={{flex:4}}
+        <Card isDark = {false}style = {{backgroundColor:'#f6f6f6', overflow:'hidden'}}>
+            <CardTitle  style={{overflow:'hidden'}}
                 title={title}
                 subtitle={auth}
-            />
-            <CardContent style={{flex:8,overflow:'hidden', marginTop:16}} text = {summary}/>
+            >
+              </CardTitle>  
+            <CardContent >
+                <Text style={{margin:4, overflow:'hidden'}}>
+                    {summary}
+                </Text>    
+            </CardContent>
             <CardAction 
-                separator={true} 
+                separator={true}
+                style={{backgroundColor:'#f0f0f0'}} 
                 inColumn={false}>
                 <CardButton
                     onPress={() => {console.log("pressed");
@@ -47,20 +53,16 @@ function Box({title, author, body, summary, nav, time}){
                         author: auth,
                         title: title,
                     });
-                      }}
+                    }}
                 title="Read"
-                color="blue"
-                /> 
+                color="#0ca379"
+                />  
                 <CardButton
                 onPress={() => {}}
                 title="Favorite"
-                color="blue"
+                color="darkorange"
                 />
-                <CardButton
-                onPress={() => {}}
-                title="Download"
-                color="blue"
-                />
+               
 
             </CardAction>
         </Card>
@@ -70,3 +72,71 @@ function Box({title, author, body, summary, nav, time}){
 }
 
 export default Box;
+
+/*
+ <CardButton
+                onPress={() => {}}
+                title="Favorite"
+                color="dodgerblue"
+                />
+                  <CardButton
+                onPress={() => {}}
+                title="Favorite2"
+                color="rebeccapurple"
+                />
+                  <CardButton
+                onPress={() => {}}
+                title="Favorite3"
+                color="#0483B0"
+                />
+                  <CardButton
+                onPress={() => {}}
+                title="Favorite4"
+                color="indigo"
+                />
+                  <CardButton
+                onPress={() => {}}
+                title="Favorite5"
+                color="#790ca3"
+                />
+                  <CardButton
+                onPress={() => {}}
+                title="Favorite6"
+                color="#097356"
+                />
+                <CardButton
+                onPress={() => {}}
+                title="Favorite7"
+                color="#E673E6"
+                />
+                <CardButton
+                onPress={() => {}}
+                title="Favorite8"
+                color="#9F72B0"
+                />
+                <CardButton
+                onPress={() => {}}
+                title="Favorite9"
+                color="#2C7D5A"
+                />
+                <CardButton
+                onPress={() => {}}
+                title="Favorite10"
+                color="#2CA0B0"
+                />
+                <CardButton
+                onPress={() => {}}
+                title="Favorite11"
+                color="#B37000"
+                />
+                <CardButton
+                onPress={() => {}}
+                title="Favorite10"
+                color="#0ebb8b"
+                />
+                <CardButton
+                onPress={() => {}}
+                title="Favorite10"
+                color="#0c82a3"
+                />
+*/
