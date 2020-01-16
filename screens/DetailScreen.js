@@ -20,8 +20,10 @@ export default class Aboutscreen extends Component {
         story += (b[i] + "\n");
     }
     return (
+        
             
        <View style={styles.container}>
+           <ScrollView style = {{padding:32}}>
         <View style = {styles.title}>
            <Text style = {styles.titleText}>{t}</Text>
         </View>
@@ -30,17 +32,13 @@ export default class Aboutscreen extends Component {
             <Text style = {styles.authorText}>{a}</Text>
         </View>
           
-        
-
+      
         <View style = {styles.body}>
         
-            <Text style = {styles.bodyText}>
-                {story}
-            </Text>
-            
-          
-        </View>
-        
+        <Text style = {styles.bodyText}>
+            {story}
+        </Text>
+
         <View style = {styles.footer}>
             <View style ={{padding:20}}> 
                 <Button color = "forestgreen" onPress = {()=>{this.props.navigation.navigate('Home');}}  title="Go Home"/>
@@ -53,6 +51,17 @@ export default class Aboutscreen extends Component {
             
             
         </View>
+        
+       
+         </View>
+
+           
+        
+
+        
+      
+        </ScrollView>
+        
       </View>
       
     )
@@ -94,6 +103,6 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'center',
         alignItems: 'center',
-        marginTop:64
+        marginTop:16
     }
 })

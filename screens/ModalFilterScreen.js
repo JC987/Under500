@@ -138,7 +138,7 @@ export default class ModalFilterScreen extends React.Component{
             switchMystery: false,
             switchOther: false,
             switchAll: this.state.switchRomance,
-            selectedCat: (this.state.switchOther) ? "all" : 'other',
+            selectedCat: (this.state.switchOther) ? "all" : 'romance',
         })
     }
 
@@ -153,7 +153,7 @@ export default class ModalFilterScreen extends React.Component{
             switchOther: false,
             switchRomance: false,
             switchAll: this.state.switchMystery,
-            selectedCat: (this.state.switchMystery) ? "all" : 'other',
+            selectedCat: (this.state.switchMystery) ? "all" : 'mystery',
         })
     }
 
