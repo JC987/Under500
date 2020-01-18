@@ -185,30 +185,59 @@ export default class ModalComposeScreen extends React.Component {
                
     }
 
-    handleSubmit = (e) =>{
+     handleSubmit =  async (e) => {
     
     const db = firebase.firestore();
-    
+    let yo;
     var user = firebase.auth().currentUser;
     let tmp_a = user.displayName;
     let tmp_t = this.state.title;
     let tmp_s = this.state.summary;
     let tmp_b = this.state.story.split("\n");
     let upper = String(tmp_t).toUpperCase();
-      
-    // Add a new document with a generated id.
-    let addDoc = db.collection('stroies').add({
-        title: tmp_t,
-        titleUpper: upper,
-        summary: tmp_s,
-        body:tmp_b,
-        author:tmp_a,
-        category:this.state.switchValue,
-        createdAt: new Date().toISOString(),
-    }).then(ref => {
-        console.log('Added document with ID: ', ref.id);
-        this.props.navigation.navigate("Home");
-    }).catch(console.log("ERROR"));
+    let date = new Date().toISOString();
+
+    let docName = user.uid ;
+    let myS = []; 
+    
+    let newName = tmp_a + date;
+
+
+          let getDoc = await db.collection('users').where("userId", "==", user.uid).get()
+          .then(snapshot => {
+            snapshot.forEach(doc => {
+                myS = doc.data()['myStories'];
+            });
+          }).then(() =>{
+              
+            let addDoc =  db.collection('stroies').doc(newName).set({
+                title: tmp_t,
+                titleUpper: upper,
+                summary: tmp_s,
+                body:tmp_b,
+                author:tmp_a,
+                storyId: newName,
+                category:this.state.switchValue,
+                createdAt: date
+            }).then( () =>  {
+                myS.push(newName);
+                console.log(myS);
+                let setStories = db.collection('users').doc(user.uid).update({
+                    myStories: myS
+                }).then( () => {
+                    this.props.navigation.navigate("Home");
+                })
+        
+            }).catch(err => {
+                console.log('Error getting documentsiuyuiok', err);
+              });
+          })
+          .catch(err => {
+            console.log('Error getting documents', err);
+          });
+
+   
+    
     }
     
     render() {
