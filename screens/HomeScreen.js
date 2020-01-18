@@ -83,7 +83,14 @@ export default class Homescreen extends Component {
       console.log(cat);
       console.log(s);
       fSQL.query(s).then(documents => {
+        console.log(documents);
+     /*   documents.map( a => {
+          
+        })*/
       documents.forEach(doc => {
+        console.log(1);
+        console.log(doc);
+        
         this.setState({
           list: [...this.state.list, {title : doc['title'], author : doc['author'], summary : doc['summary'], body : doc['body'],  time: doc['createdAt'] }],
           fetched: true,
@@ -107,10 +114,10 @@ export default class Homescreen extends Component {
 
     //get filter params for querey
     let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stroies').orderBy('createdAt', 'desc'));
-    let allStories = storiesRef.limit(1).get()
+    let allStories = storiesRef.limit(10).get()
     .then(snapshot => {
       snapshot.forEach(doc => {
-        
+        console.log(doc);
           this.setState({
             list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], body : doc.data()['body'],  time: doc.data()['createdAt'] }],
             fetched: true,

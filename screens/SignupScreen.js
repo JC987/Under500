@@ -108,6 +108,8 @@ export default class SignupScreen extends Component{
                   email: this.state.email,
                   password: this.state.password,
                   userId: user['user']['uid'],
+                  myStories:[],
+                  fav:[],
                   createdAt: new Date().toISOString(),
 
                 }).then(ref => {

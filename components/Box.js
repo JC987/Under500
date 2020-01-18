@@ -3,6 +3,10 @@ import {View,Text,Button} from 'react-native';
 //import DetailScreen from './DetailScreen';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
+import * as firebase from 'firebase';
+
+
+import '@firebase/firestore';
 //import HomeScreen from './HomeScreen';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards';
 //import { makeStyles } from '@material-ui/core/styles';
@@ -25,7 +29,7 @@ const AppNavigator = createStackNavigator({
 
 const AppContainer = createAppContainer(AppNavigator);*/
 
-function Box({title, author, body, summary, nav, time}){
+function Box({title, author, body, summary, nav, time, storyId}){
     //console.log("nav \n" + nav);
     let auth = "by "+ author + ":   " + time;
     return(
@@ -58,7 +62,41 @@ function Box({title, author, body, summary, nav, time}){
                 color="#0ca379"
                 />  
                 <CardButton
-                onPress={() => {}}
+                onPress={async () => {
+                  let user = firebase.auth().currentUser;
+    
+                  const db = firebase.firestore();
+                  let arr = [];
+                  let storiesRef =  db.collection('users').where('userId', '==', user.uid);
+                  let allStories = await storiesRef.get()
+                  .then(snapshot => {
+                    snapshot.forEach(doc => {
+                      console.log(doc.data());
+                      arr = doc.data()['fav'];
+                      console.log(arr);
+                      
+                    });
+                  })
+                  .catch(err => {
+                    console.log('Error getting documents', err);
+                  });
+
+                    let tmp = author + time;
+                    console.log(tmp);
+                    arr.push(tmp);
+                    console.log(arr);
+                  let x =  db.collection('users').doc(user.uid).update(
+                      {
+                        fav: arr
+                      }
+                  ).catch((error) => {
+
+                    console.log( error.code);
+                    console.log(error.message);
+                  
+                });
+
+                }}
                 title="Favorite"
                 color="darkorange"
                 />
