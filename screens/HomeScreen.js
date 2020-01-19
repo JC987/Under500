@@ -19,9 +19,13 @@ export default class Homescreen extends Component {
       list:[],
       fetched: false,
       searchText:this.props.navigation.getParam('search',""),
+      userFav:["WOW"],
     }
     this.fetchFeed = this.fetchFeed.bind(this);
     this.searchTextChanged = this.searchTextChanged.bind(this);
+                
+    this.fetchFeed();
+  
   }
 
   searchTextChanged = (text) =>{
@@ -30,48 +34,13 @@ export default class Homescreen extends Component {
     })
 
   }
-/*
-  // I am using a second fecthFeed because I want the other feed to limit by X and if I used this func with a limit not all 
-  // data where doc.data()['title'].includes(this.state.searchText) will show. Only if it is true in the first X entires.
-  fetchFeedFromButton = (e) => {
-      if(this.state.searchText == "")
-        return ;
-      const dbh = firebase.firestore();
-      //get filter params for querey
-      let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stroies').orderBy("createdAt", "desc"));
-      let allStories = storiesRef.get()
-      .then(snapshot => {
-        snapshot.forEach(doc => {
-            //I want to replicate the LIKE operator from SQL this was the simplest way to do so but it also gets every story from firebase.
-            //This is a lot of reads and I want to find a way to reduce this.
-            //Simplest option seems to be use the library Querybase which I think will let me do something like this ' WHERE title LIKE Sto% '
-            //The trade off here is I can't check if title contians a value, only starts with a value. So no ' WHERE title LIKE %to% '.
-            //Another option to try is elastic search (double check name and do more research on this).
-
-            //TODO: limit to 5 and loadMore: I still want this to be limited to 5 items at a time. So I will need a counter in the forEach statement 
-            //to count to 5 then add a loadMore functionality to loadMore data when needed. 
-          if( doc.data()['title'].includes(this.state.searchText)){ 
-            this.setState({
-              list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], body : doc.data()['body'],  time: doc.data()['createdAt'] }],
-              fetched: true,
-            },
-            ); 
-          }
-        });
-      })
-      .catch(err => {
-        console.log('Error getting documents', err);
-      });
-  
-}
-  
-
-
-*/
 
   fetchFeedSearched = (e) => {
-    if(this.state.searchText == "")
+    
+    if(this.state.searchText == ""){
+      this.fetchFeed();
       return ;
+    }
       const dbh = firebase.firestore();
       const fSQL = new FireSQL.FireSQL(dbh);
       let cat = this.props.navigation.getParam('category', 'all');
@@ -80,19 +49,15 @@ export default class Homescreen extends Component {
         s = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" AND category LIKE "' + cat + '" ORDER BY titleUpper LIMIT 2';
       else
         s = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" LIMIT 2';
-      console.log(cat);
-      console.log(s);
+      
       fSQL.query(s).then(documents => {
         console.log(documents);
-     /*   documents.map( a => {
-          
-        })*/
+     
       documents.forEach(doc => {
-        console.log(1);
         console.log(doc);
         
         this.setState({
-          list: [...this.state.list, {title : doc['title'], author : doc['author'], summary : doc['summary'], body : doc['body'],  time: doc['createdAt'] }],
+          list: [...this.state.list, {title : doc['title'], author : doc['author'], summary : doc['summary'], body : doc['body'],  time: doc['createdAt'], storyId: doc['storyId'] , favList: this.state.userFav }],
           fetched: true,
         },
         ); 
@@ -110,38 +75,59 @@ export default class Homescreen extends Component {
 
 
   fetchFeed =  (e) => {
-    const dbh = firebase.firestore();
+      console.log("FECTH FEED");
 
-    //get filter params for querey
-    let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stroies').orderBy('createdAt', 'desc'));
-    let allStories = storiesRef.limit(10).get()
-    .then(snapshot => {
-      snapshot.forEach(doc => {
-        console.log(doc);
-          this.setState({
-            list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], body : doc.data()['body'],  time: doc.data()['createdAt'] }],
-            fetched: true,
-          },
-          ); 
-      });
-    })
-    .catch(err => {
-      console.log('Error getting documents', err);
+     firebase.auth().onAuthStateChanged( async (user) => {
+
+      if (user) {
+        // User is signed in.
+        console.log("USER IT TRUE!");
+
+        const dbh = firebase.firestore();
+
+
+        await dbh.collection('users').where("userId", "==", user.uid).get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+              this.setState({
+                userFav: doc.data()['fav'],
+              }) 
+            
+          });
+
+        }).then( () => {
+          let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stroies').orderBy('createdAt', 'desc'));
+          let allStories = storiesRef.limit(5).get()
+          .then(snapshot => {
+            snapshot.forEach(doc => {
+              console.log("doc is " + doc.data()['title']);
+                this.setState({
+                  list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
+                  fetched: true,
+                },
+                ); 
+            });
+          })
+          .catch(err => {
+            console.log('Error getting documents', err);
+          });
+
+        })
+        
+       
+
+      }
+
     });
 
   
 }
 
 render() {
-  
+  let user = firebase.auth().currentUser;
+    
 
   if(!this.state.fetched){
-
-    if(this.state.searchText=="")
-      this.fetchFeed();
-    else
-      this.fetchFeedSearched();
-      
     //Return view with progress bar
     return(
       <View>
@@ -149,11 +135,13 @@ render() {
         <TextInput style={{borderWidth:1,height:50, backgroundColor: '#fff', margin:4, padding: 0, flex:9}} value={this.state.searchText} onChangeText = {(text) =>{this.searchTextChanged(text)}} placeholder=" Loading data..."/>
             <View style = {{ height:50, marginTop: 8, padding: 2}}>
                     <Button color = "#0ca379" style={{flex:1, textAlign:'center', height:50}} onPress={() => {
+                      this.fetchFeedSearched();
                       console.log("buttom pressed   " + this.state.searchText);
                       this.setState({
                         list:[],
                         fetched:false,
                       })
+
                     }} title="Search"/>
             </View>
 
@@ -161,6 +149,7 @@ render() {
              <Button color = "darkorange" style={{flex:1, textAlign:'center'}} onPress={() => {
                 this.props.navigation.navigate("ModalFilter", {
                   search: this.state.searchText,
+                  fav: this.state.userFav,
                 });
                 }} title="Filter"/>
 
@@ -181,6 +170,7 @@ render() {
         <TextInput style={{borderWidth:1,height:50, backgroundColor: '#fff', margin:4, padding: 0, flex:9}} value={this.state.searchText} onChangeText = {(text) =>{this.searchTextChanged(text)}} placeholder=" Search for a story"/>
             <View style = {{ height:50, marginTop: 8, padding: 2}}>
                     <Button  color = "#0ca379" style={{flex:1, textAlign:'center', height:50}} onPress={() => {
+                      this.fetchFeedSearched();
                       console.log("buttom pressed   " + this.state.searchText);
                       this.setState({
                         list:[],
@@ -193,6 +183,7 @@ render() {
              <Button color = "darkorange" style={{flex:1, textAlign:'center'}} onPress={() => {
                 this.props.navigation.navigate("ModalFilter", {
                   search: this.state.searchText,
+                  fav: this.state.userFav,
                 });
                 }} title="Filter"/>
 
@@ -202,7 +193,7 @@ render() {
         <FlatList
           refreshing = {true}
           data={this.state.list}
-          renderItem={({item}) => <Box title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} time = {item.time} /> }
+          renderItem={({item}) => <Box title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} time = {item.time} favList = {item.favList} storyId = {item.storyId} /> }
         />
       </View>
       </ScrollView>

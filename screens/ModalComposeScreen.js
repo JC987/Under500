@@ -26,9 +26,12 @@ export default class ModalComposeScreen extends React.Component {
             switchSciFi: false,
             switchRomance: false,
             switchFantasy: false,
-            switchValue: "Other",
+            switchValue: "other",
             body:[],
         }
+        let user = firebase.auth().currentUser;
+    
+        console.log(user);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -197,10 +200,10 @@ export default class ModalComposeScreen extends React.Component {
     let upper = String(tmp_t).toUpperCase();
     let date = new Date().toISOString();
 
-    let docName = user.uid ;
+    
     let myS = []; 
     
-    let newName = tmp_a + date;
+    let docName = tmp_a + date;
 
 
           let getDoc = await db.collection('users').where("userId", "==", user.uid).get()
@@ -210,17 +213,17 @@ export default class ModalComposeScreen extends React.Component {
             });
           }).then(() =>{
               
-            let addDoc =  db.collection('stroies').doc(newName).set({
+            let addDoc =  db.collection('stroies').doc(docName).set({
                 title: tmp_t,
                 titleUpper: upper,
                 summary: tmp_s,
                 body:tmp_b,
                 author:tmp_a,
-                storyId: newName,
+                storyId: docName,
                 category:this.state.switchValue,
                 createdAt: date
             }).then( () =>  {
-                myS.push(newName);
+                myS.push(docName);
                 console.log(myS);
                 let setStories = db.collection('users').doc(user.uid).update({
                     myStories: myS

@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { Button, View, Text, TextInput, KeyboardAvoidingView, FlatList } from 'react-native';
 import * as firebase from 'firebase';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+import {  StackActions, NavigationActions, createAppContainer } from "react-navigation";
+
 import Login from './LoginScreen';
 import SignUp from './SignupScreen';
 import Box from '../components/Box';
@@ -30,7 +32,10 @@ export default class Aboutscreen extends React.Component {
     firebase.auth().signOut().then(() => {
       // Sign-out successful.
       console.log("sign out successful");
-      this.props.navigation.navigate("Home");
+      const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Home' } )],});
+      this.props.navigation.dispatch(resetAction);
     }).catch(function(error) {
       // An error happened.
       console.log("sign out failed" + error);
@@ -63,13 +68,11 @@ export default class Aboutscreen extends React.Component {
       console.log(snapshot);
       snapshot.forEach(doc => {
           this.setState({
-            list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], body : doc.data()['body']} ],
+            list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], body : doc.data()['body'], time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList:[] }],
             fetched: true,
             showButton: false,
           },
-         // console.log("state saved"),
           
-          //console.log(this.state.posts)
           ); 
       });
     })
@@ -121,6 +124,13 @@ export default class Aboutscreen extends React.Component {
 
                   </View>
 
+                  <View style = {{marginTop:32, width: 300}}>
+                    <Button color = "darkorange" onPress = {() => {}} title = "Show my favorites"/>
+                  </View>
+                  <View style = {{marginTop:32, width: 300}}>
+                    <Button color = "darkorange" onPress = {() => {this.signOut()}} title = "Show my read laters"/>
+                  </View>
+
                   </View>
                   
                  {!this.state.showButton &&
@@ -133,12 +143,9 @@ export default class Aboutscreen extends React.Component {
                       <FlatList
                         refreshing = {true}
                         data={this.state.list}
-                        renderItem={({item}) => <Box title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} /> }
+                        renderItem={({item}) => <Box title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} time = {item.time} favList = {item.favList} storyId = {item.storyId}  /> }
                       />
                     </View>
-                    
-                    
-                  
                   }
                     
                  

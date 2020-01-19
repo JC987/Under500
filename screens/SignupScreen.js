@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { Button, View, Text, TextInput } from 'react-native';
 import * as firebase from 'firebase';
+import {  StackActions, NavigationActions, createAppContainer } from "react-navigation";
+
 
 import ProgressBar from 'react-native-progress/Bar';
 
@@ -92,17 +94,13 @@ export default class SignupScreen extends Component{
 
             firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then((user) => {
-    
-                //console.log(this.state.displayName);
-                //console.log(user['user']);
                 
                 user['user'].updateProfile({
                   displayName: this.state.displayName
                 });
                 
-                //const db = firebase.firestore();
 
-                // Add a new document with a generated id.
+                // Add a new document with the following id.
                 let addDoc = db.collection('users').doc(user['user']['uid']).set({
                   displayName: this.state.displayName,
                   email: this.state.email,
@@ -118,8 +116,11 @@ export default class SignupScreen extends Component{
 
                 })
               }).then(() => {
-                
-                this.props.nav.navigate("Home");
+                const resetAction = StackActions.reset({
+                  index: 0,
+                  actions: [NavigationActions.navigate({ routeName: 'Home' } )],
+                  });
+                  this.props.nav.dispatch(resetAction);
 
               }).catch((error) => {
 

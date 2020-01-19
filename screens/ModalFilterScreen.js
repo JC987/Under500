@@ -12,6 +12,7 @@ export default class ModalFilterScreen extends React.Component{
         super(props);
         this.state = {
             switchNewst: true,
+            switchFavorite: false,
             switchAdv: false,
             switchComedy: false,
             switchHorror: false,
@@ -24,6 +25,7 @@ export default class ModalFilterScreen extends React.Component{
         
         console.log(this.props.navigation.getParam('search',""));
         this.switchNewst = this.switchNewst.bind(this);
+        this.switchFavorite = this.switchFavorite.bind(this);
         this.switchAdv = this.switchAdv.bind(this);
         this.switchComedy = this.switchComedy.bind(this);
         this.switchFantasy = this.switchFantasy.bind(this);
@@ -38,6 +40,11 @@ export default class ModalFilterScreen extends React.Component{
     switchNewst = (e) =>{
         this.setState({
             switchNewst: !this.state.switchNewst,
+        })
+    }
+    switchFavorite = (e) =>{
+        this.setState({
+            switchFavorite: !this.state.switchFavorite,
         })
     }
 
@@ -179,7 +186,14 @@ export default class ModalFilterScreen extends React.Component{
         if(this.state.selectedCat != "all"){
             storiesRef = storiesRef.where("category", "==", this.state.selectedCat);//.orderBy("createdAt", "desc")
         }
-        
+        if(this.state.switchFavorite){
+
+            let favArr =[];
+            favArr = this.props.navigation.getParam('fav',"");
+            
+            storiesRef = storiesRef.where("storyId", "in", favArr);
+
+        }
         if(this.state.switchNewst)
             storiesRef = storiesRef.orderBy("createdAt", "desc");
         else
@@ -222,10 +236,10 @@ export default class ModalFilterScreen extends React.Component{
                 <View style ={{flexDirection:'row'}}>
                     
                 <Text style = {{ width:120}}>
-                        Favourite
+                        Favorite
                     </Text>
-                    <Switch style={{marginLeft:16}} value={this.state.switchNewst}  
-                        onValueChange ={(e)=>{this.switchNewst(e)}}/>
+                    <Switch style={{marginLeft:16}} value={this.state.switchFavorite}  
+                        onValueChange ={(e)=>{this.switchFavorite(e)}}/>
                         
                 </View>
 
