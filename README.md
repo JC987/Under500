@@ -2,7 +2,7 @@
 
 <p><strong>Under 500</strong> is a web/mobile app built using react-native and firebase that will allow users to read/write short stories <a href="https://en.wikipedia.org/wiki/Flash_fiction" target="_blank"> (flash-fiction)</a> that are 500 words or less. Right now this repo is still a work is progress but below is a gif walkthrough showing the primary functions of this app.[Please note that the gif may not be 100% up to date. I will try to update it regularly as changes are made.]
 
-<strong>Here is currently some of the user stories<strong>
+<strong>Here is currently some of the user stories</strong>
 Currently a user can login/sign up.
 Create a new short story.
 Read short stories others have posted.
