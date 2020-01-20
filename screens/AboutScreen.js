@@ -44,7 +44,6 @@ export default class Aboutscreen extends React.Component {
 
   getStories = (e) => {
     if(!this.state.showButton){
-      console.log("if s " + this.state.showButton);
       this.setState({
         showButton: true
       })
@@ -58,7 +57,6 @@ export default class Aboutscreen extends React.Component {
     }
 
     
-    console.log("qwer " + this.state.showButton);
     let user = firebase.auth().currentUser;
     if(user !== null){
     const dbh = firebase.firestore();
@@ -72,7 +70,7 @@ export default class Aboutscreen extends React.Component {
             fetched: true,
             showButton: false,
           },
-          
+
           ); 
       });
     })
@@ -124,12 +122,7 @@ export default class Aboutscreen extends React.Component {
 
                   </View>
 
-                  <View style = {{marginTop:32, width: 300}}>
-                    <Button color = "darkorange" onPress = {() => {}} title = "Show my favorites"/>
-                  </View>
-                  <View style = {{marginTop:32, width: 300}}>
-                    <Button color = "darkorange" onPress = {() => {this.signOut()}} title = "Show my read laters"/>
-                  </View>
+                  
 
                   </View>
                   
