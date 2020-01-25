@@ -13,20 +13,89 @@ export default class Detailscreen extends Component {
         super(props);
         this.state = {
             favButtonText: (this.props.navigation.getParam('isFav',false)) ? "Unfavorite" : "Favorite",
+            author:this.props.navigation.getParam('author','no author'),
+            time:this.props.navigation.getParam('time','no time'),
+            title: this.props.navigation.getParam('title','no title'),
+            displayAuthor: "Written by: "+this.props.navigation.getParam('author','no author'),
+            body: this.props.navigation.getParam('body','no body'), 
         }
+    }
+
+    async unfavoriteStory(){
+        
+        let user = firebase.auth().currentUser;
+
+        const db = firebase.firestore();
+        let arr = [];
+        let storiesRef =  db.collection('users').where('userId', '==', user.uid);
+        let allStories = await storiesRef.get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            arr = doc.data()['fav'];
+            
+          });
+        })
+        .catch(err => {
+          console.log('Error getting documents', err);
+        });
+
+        let tmp = this.state.author + this.state.time;
+        let newArr = [];
+        for(let i = 0; i < arr.length; i++){
+            if(arr[i]!=tmp)
+                newArr.push(arr[i])
+        }
+
+        let x =  db.collection('users').doc(user.uid).update(
+            {
+              fav: newArr
+            }
+      ).catch((error) => {
+
+        console.log( error.code);
+        console.log(error.message);
+      
+    });
+
+    }
+
+    async favoriteStory(){
+        let user = firebase.auth().currentUser;
+
+        const db = firebase.firestore();
+        let arr = [];
+        let storiesRef =  db.collection('users').where('userId', '==', user.uid);
+        let allStories = await storiesRef.get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            arr = doc.data()['fav'];
+            
+          });
+        })
+        .catch(err => {
+          console.log('Error getting documents', err);
+        });
+
+        let tmp = this.state.author + this.state.time;
+        arr.push(tmp);
+        let x =  db.collection('users').doc(user.uid).update(
+            {
+              fav: arr
+            }
+      ).catch((error) => {
+
+        console.log( error.code);
+        console.log(error.message);
+      
+    });
     }
     
   render() {
-    let body = this.props.navigation.getParam('body','no body');
-    let displayAuthor = "Written by: "+this.props.navigation.getParam('author','no author');
-    let title = this.props.navigation.getParam('title','no title');
-    // let sum = this.props.navigation.getParam('summary','no summary');
-    let author = this.props.navigation.getParam('author','no author');
-    let time = this.props.navigation.getParam('time','no time');
+
     
     let story = "";
-    for( let i = 0; i < body.length; i++){
-        story += (body[i] + "\n");
+    for( let i = 0; i < this.state.body.length; i++){
+        story += (this.state.body[i] + "\n");
     }
     return (
         
@@ -34,11 +103,11 @@ export default class Detailscreen extends Component {
        <View style={styles.container}>
            <ScrollView style = {{padding:32}}>
         <View style = {styles.title}>
-           <Text style = {styles.titleText}>{title}</Text>
+           <Text style = {styles.titleText}>{this.state.title}</Text>
         </View>
 
         <View style = {styles.author}>
-            <Text style = {styles.authorText}>{displayAuthor}</Text>
+            <Text style = {styles.authorText}>{this.state.displayAuthor}</Text>
         </View>
           
       
@@ -57,49 +126,22 @@ export default class Detailscreen extends Component {
                     title="Go Home"/>
              </View>
             <View style ={{padding:20}}> 
-                <Button color = "darkorange" title={this.state.favButtonText} onPress={async () => {
+                <Button color = "darkorange" title={this.state.favButtonText} onPress={() => {
                     if(this.state.favButtonText == "Unfavorite"){
                         this.setState({
                             favButtonText: "Favorite"
                         });
                         console.log("Unfavorited");
+                        this.unfavoriteStory();
+
                     }
                     else{
                         this.setState({
                             favButtonText: "Unfavorite"
                         });
                     
-                    console.log("presssd fav");
-                    let user = firebase.auth().currentUser;
-
-                    const db = firebase.firestore();
-                    let arr = [];
-                    let storiesRef =  db.collection('users').where('userId', '==', user.uid);
-                    let allStories = await storiesRef.get()
-                    .then(snapshot => {
-                      snapshot.forEach(doc => {
-                        arr = doc.data()['fav'];
-                        
-                      });
-                    })
-                    .catch(err => {
-                      console.log('Error getting documents', err);
-                    });
-
-                    let tmp = author + time;
-                   // console.log(tmp);
-                    arr.push(tmp);
-                   // console.log(arr);
-                    let x =  db.collection('users').doc(user.uid).update(
-                        {
-                          fav: arr
-                        }
-                  ).catch((error) => {
-
-                    console.log( error.code);
-                    console.log(error.message);
-                  
-                });
+                        console.log("presssd fav");
+                        this.favoriteStory();
 
                 }}
 
