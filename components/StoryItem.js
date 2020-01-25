@@ -9,7 +9,7 @@ import '@firebase/firestore';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards';
 
 
-function Box({title, author, body, summary, nav, time, storyId, isFav, favList}){
+function StoryItem({title, author, body, summary, nav, time, storyId, isFav, favList}){
   
     
     let user = firebase.auth().currentUser;
@@ -49,7 +49,8 @@ function Box({title, author, body, summary, nav, time, storyId, isFav, favList})
                         authorText: auth,
                         title: title,
                         time: time,
-                        author: author
+                        author: author,
+                        isFav: isFav
                     });
                     }}
                 title="Read"
@@ -74,4 +75,4 @@ function Box({title, author, body, summary, nav, time, storyId, isFav, favList})
     );
 }
 
-export default Box;
+export default StoryItem;

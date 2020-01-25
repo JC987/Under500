@@ -8,20 +8,25 @@ import {  StackActions, NavigationActions, createAppContainer } from "react-navi
 
 
 import '@firebase/firestore';
-export default class Aboutscreen extends Component {
-    
+export default class Detailscreen extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            favButtonText: (this.props.navigation.getParam('isFav',false)) ? "Unfavorite" : "Favorite",
+        }
+    }
     
   render() {
-    let b = this.props.navigation.getParam('body','no body');
-    let a = " "+this.props.navigation.getParam('author','no author');
-    let t = this.props.navigation.getParam('title','no title');
+    let body = this.props.navigation.getParam('body','no body');
+    let displayAuthor = "Written by: "+this.props.navigation.getParam('author','no author');
+    let title = this.props.navigation.getParam('title','no title');
     // let sum = this.props.navigation.getParam('summary','no summary');
     let author = this.props.navigation.getParam('author','no author');
     let time = this.props.navigation.getParam('time','no time');
-
+    
     let story = "";
-    for( let i = 0; i < b.length; i++){
-        story += (b[i] + "\n");
+    for( let i = 0; i < body.length; i++){
+        story += (body[i] + "\n");
     }
     return (
         
@@ -29,11 +34,11 @@ export default class Aboutscreen extends Component {
        <View style={styles.container}>
            <ScrollView style = {{padding:32}}>
         <View style = {styles.title}>
-           <Text style = {styles.titleText}>{t}</Text>
+           <Text style = {styles.titleText}>{title}</Text>
         </View>
 
         <View style = {styles.author}>
-            <Text style = {styles.authorText}>{a}</Text>
+            <Text style = {styles.authorText}>{displayAuthor}</Text>
         </View>
           
       
@@ -52,7 +57,18 @@ export default class Aboutscreen extends Component {
                     title="Go Home"/>
              </View>
             <View style ={{padding:20}}> 
-                <Button color = "darkorange" title="Favorite" onPress={async () => {
+                <Button color = "darkorange" title={this.state.favButtonText} onPress={async () => {
+                    if(this.state.favButtonText == "Unfavorite"){
+                        this.setState({
+                            favButtonText: "Favorite"
+                        });
+                        console.log("Unfavorited");
+                    }
+                    else{
+                        this.setState({
+                            favButtonText: "Unfavorite"
+                        });
+                    
                     console.log("presssd fav");
                     let user = firebase.auth().currentUser;
 
@@ -83,12 +99,11 @@ export default class Aboutscreen extends Component {
                     console.log( error.code);
                     console.log(error.message);
                   
-                }).then( () => {
-                    console.log("then");
-
                 });
 
                 }}
+
+            }
                 />
             </View>
             

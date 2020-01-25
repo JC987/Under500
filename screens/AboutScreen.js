@@ -7,7 +7,7 @@ import {  StackActions, NavigationActions, createAppContainer } from "react-navi
 
 import Login from './LoginScreen';
 import SignUp from './SignupScreen';
-import Box from '../components/Box';
+import StoryItem from '../components/StoryItem';
 import ProgressBar from 'react-native-progress/Bar';
 export default class Aboutscreen extends React.Component {
   constructor(props){
@@ -128,7 +128,6 @@ export default class Aboutscreen extends React.Component {
                   
                  {!this.state.showButton &&
                    
-                      
                     <View style = {{margin:16}}>
                       <Text style = {{textDecorationLine:'underline', fontSize:18, padding:16}}>
                         Below is your stories:
@@ -136,7 +135,7 @@ export default class Aboutscreen extends React.Component {
                       <FlatList
                         refreshing = {true}
                         data={this.state.list}
-                        renderItem={({item}) => <Box title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} time = {item.time} favList = {item.favList} storyId = {item.storyId}  /> }
+                        renderItem={({item}) => <StoryItem title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} time = {item.time} favList = {item.favList} storyId = {item.storyId}  /> }
                       />
                     </View>
                   }

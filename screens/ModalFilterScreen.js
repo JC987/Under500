@@ -199,7 +199,7 @@ export default class ModalFilterScreen extends React.Component{
         else
             storiesRef = storiesRef.orderBy("createdAt", "asc");
 
-       const resetAction = StackActions.reset({
+        const resetAction = StackActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({ routeName: 'Home', params: {
                 filter: storiesRef,
@@ -210,7 +210,7 @@ export default class ModalFilterScreen extends React.Component{
             } )],
         });
         this.props.navigation.dispatch(resetAction);
-        
+    
 
     }
 
