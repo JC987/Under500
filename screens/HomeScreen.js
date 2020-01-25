@@ -50,20 +50,15 @@ export default class Homescreen extends Component {
         query = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%"'// LIMIT 2';
       
       fSQL.query(query).then(documents => {
-        console.log(documents);
-     
       documents.forEach(doc => {
-        console.log(doc);
-        
         this.setState({
           list: [...this.state.list, {title : doc['title'], author : doc['author'], summary : doc['summary'], body : doc['body'],  
             time: doc['createdAt'], storyId: doc['storyId'] , favList: this.state.userFav }],
-          fetched: true,
-          searched: true,
+            fetched: true,
+            searched: true,
         },
         ); 
       });
-     console.log(documents);
   })
   .catch(err => {
     console.log('Error getting documents', err);
@@ -84,7 +79,7 @@ export default class Homescreen extends Component {
             this.setState({
               list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], 
                 body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
-              fetched: true,
+                fetched: true,
               
             },
             ); 
@@ -128,12 +123,12 @@ export default class Homescreen extends Component {
           let allStories = storiesRef.limit(5).get()
           .then(snapshot => {
             snapshot.forEach(doc => {
-              console.log("doc is " + doc.data()['title']);
+              //console.log("doc is " + doc.data()['title']);
                 this.setState({
                   list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], 
                     body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
-                  fetched: true,
-                  searched: false,
+                    fetched: true,
+                    searched: false,
                 },
                 ); 
             });
