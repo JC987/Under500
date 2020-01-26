@@ -77,8 +77,7 @@ export default class Homescreen extends Component {
         snapshot.forEach(doc => {
           console.log("load more " + doc.data()['title']);
             this.setState({
-              list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], 
-                body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
+              list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'],body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
                 fetched: true,
               
             },
@@ -88,7 +87,8 @@ export default class Homescreen extends Component {
         
         this.setState({
           count: snapshot.docs[snapshot.docs.length -1],
-        })
+        });
+        console.log(this.state.list);
       })
       .catch(err => {
         console.log('Error getting documents', err);
@@ -99,7 +99,7 @@ export default class Homescreen extends Component {
 
   fetchFeed =  (e) => {
       console.log("FECTH FEED");
-
+      
      firebase.auth().onAuthStateChanged( async (user) => {
 
       if (user) {
@@ -107,8 +107,6 @@ export default class Homescreen extends Component {
         console.log("USER IT TRUE!");
 
         const dbh = firebase.firestore();
-
-
         await dbh.collection('users').where("userId", "==", user.uid).get()
         .then(snapshot => {
           snapshot.forEach(doc => {
@@ -119,36 +117,48 @@ export default class Homescreen extends Component {
           });
 
         }).then( () => {
-          let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stroies').orderBy('createdAt', 'desc'));
-          let allStories = storiesRef.limit(5).get()
-          .then(snapshot => {
-            snapshot.forEach(doc => {
-              //console.log("doc is " + doc.data()['title']);
-                this.setState({
-                  list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], 
-                    body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
-                    fetched: true,
-                    searched: false,
-                },
-                ); 
-            });
-
-            this.setState({
-              count: snapshot.docs[snapshot.docs.length - 1],
-            })
-
-          })
-          .catch(err => {
-            console.log('Error getting documents', err);
-          });
-
+          this.getAllStories();
         })
 
       }
 
+      else {
+        this.getAllStories();
+      }
+
     });
 
+    
   
+}
+
+getAllStories(){
+  const dbh = firebase.firestore();
+
+  let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stroies').orderBy('createdAt', 'desc'));
+    let allStories = storiesRef.limit(5).get()
+    .then(snapshot => {
+      snapshot.forEach(doc => {
+        //console.log("doc is " + doc.data()['title']);
+          this.setState({
+            list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], 
+              body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
+            fetched: true,
+            searched: false,
+          },
+          ); 
+      });
+
+      this.setState({
+        count: snapshot.docs[snapshot.docs.length - 1],
+      });
+        
+
+       console.log(this.state.list);
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
+    });
 }
 
 render() {
