@@ -45,7 +45,7 @@ export default class Homescreen extends Component {
       let category = this.props.navigation.getParam('category', 'all');
       let query  = '';
       if( category != 'all')
-        query = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" AND category LIKE "' + cat + '" ORDER BY titleUpper'//LIMIT 2';
+        query = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" AND category LIKE "' + category + '" ORDER BY titleUpper'//LIMIT 2';
       else
         query = 'SELECT * FROM stroies WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%"'// LIMIT 2';
       
@@ -68,17 +68,16 @@ export default class Homescreen extends Component {
 }
 
   loadMoreFeed = (e) => {
-    console.log(this.state.count);
     if(this.state.count != undefined){
       const dbh = firebase.firestore();
       let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stroies').orderBy('createdAt', 'desc'));
       let allStories = storiesRef.startAfter(this.state.count.data().createdAt).limit(5).get()
       .then(snapshot => {
         snapshot.forEach(doc => {
-          console.log("load more " + doc.data()['title']);
+          //console.log("load more " + doc.data()['title']);
             this.setState({
               list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'],body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
-                fetched: true,
+              fetched: true,
               
             },
             ); 
@@ -88,7 +87,6 @@ export default class Homescreen extends Component {
         this.setState({
           count: snapshot.docs[snapshot.docs.length -1],
         });
-        console.log(this.state.list);
       })
       .catch(err => {
         console.log('Error getting documents', err);
@@ -153,8 +151,6 @@ getAllStories(){
         count: snapshot.docs[snapshot.docs.length - 1],
       });
         
-
-       console.log(this.state.list);
     })
     .catch(err => {
       console.log('Error getting documents', err);
