@@ -127,23 +127,30 @@ export default class Detailscreen extends Component {
              </View>
             <View style ={{padding:20}}> 
                 <Button color = "darkorange" title={this.state.favButtonText} onPress={() => {
-                    if(this.state.favButtonText == "Unfavorite"){
-                        this.setState({
-                            favButtonText: "Favorite"
-                        });
-                        console.log("Unfavorited");
-                        this.unfavoriteStory();
+                    let user = firebase.auth().currentUser;
 
+                    if(user != null ){
+                        if(this.state.favButtonText == "Unfavorite"){
+                            this.setState({
+                                favButtonText: "Favorite"
+                            });
+                            console.log("Unfavorited");
+                            this.unfavoriteStory();
+
+                        }
+                        else{
+                            this.setState({
+                                favButtonText: "Unfavorite"
+                            });
+                        
+                            console.log("presssd fav");
+                            this.favoriteStory();
+
+                        }
                     }
-                    else{
-                        this.setState({
-                            favButtonText: "Unfavorite"
-                        });
-                    
-                        console.log("presssd fav");
-                        this.favoriteStory();
-
-                }}
+                    else
+                        alert("Please log in to favorite");
+            }
 
             }
                 />

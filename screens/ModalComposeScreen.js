@@ -10,6 +10,7 @@ import '@firebase/firestore';
 export default class ModalComposeScreen extends React.Component {
     constructor(props){
         super(props);
+        
         this.state = {
             storyChar:0,
             storyLength: 0,

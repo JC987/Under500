@@ -14,6 +14,10 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
+import * as firebase from 'firebase';
+
+
+import '@firebase/firestore';
 
 import HomeScreen from './screens/HomeScreen';
 import AboutScreen from './screens/AboutScreen';
@@ -60,7 +64,12 @@ const AppNavigator = createStackNavigator({
         headerRight: () => (
           <View style={{flexDirection:'row', justifyContent:'space-between'}}> 
           <TouchableOpacity activeOpacity = {.5} 
-              onPress = {() => navigation.navigate("ModalCompose")} >
+              onPress = {() => {
+                let user = firebase.auth().currentUser;
+                if(user == null){
+                    navigation.navigate("About"); //this.props.navigation.navigate("ModalFilter"
+                }else
+                  navigation.navigate("ModalCompose")}} >
                <Icon name="pencil-square-o" size={30} color="#fff" />
           </TouchableOpacity>
             
