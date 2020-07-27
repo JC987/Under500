@@ -67,7 +67,7 @@ const AppNavigator = createStackNavigator({
               onPress = {() => {
                 let user = firebase.auth().currentUser;
                 if(user == null){
-                    navigation.navigate("About"); //this.props.navigation.navigate("ModalFilter"
+                    navigation.navigate("About"); //this.props.navigation.navigate("ModalFilt
                 }else
                   navigation.navigate("ModalCompose")}} >
                <Icon name="pencil-square-o" size={30} color="#fff" />

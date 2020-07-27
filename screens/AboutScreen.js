@@ -60,7 +60,7 @@ export default class Aboutscreen extends React.Component {
     let user = firebase.auth().currentUser;
     if(user !== null){
     const dbh = firebase.firestore();
-    let storiesRef = dbh.collection('stroies');//misspelled stories in firebase :/
+    let storiesRef = dbh.collection('stories');//misspelled stories in firebase :/
     let myStories = storiesRef.where('author', '==', user.displayName).get()
     .then(snapshot => {
       console.log(snapshot);

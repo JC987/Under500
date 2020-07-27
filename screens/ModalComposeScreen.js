@@ -210,7 +210,7 @@ export default class ModalComposeScreen extends React.Component {
                 });
             }).then(() =>{
                 
-                let addStory =  db.collection('stroies').doc(docName).set({
+                let addStory =  db.collection('stories').doc(docName).set({
                     title: storyTitle,
                     titleUpper: titleUpperCase,
                     summary: storySummary,
