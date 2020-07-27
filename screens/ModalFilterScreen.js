@@ -181,7 +181,7 @@ export default class ModalFilterScreen extends React.Component{
     apply = (e) =>{
         //console.log(this.state.selectedCat);
         const dbh = firebase.firestore();
-        let storiesRef = dbh.collection('stroies');//misspelled stories in firebase :/
+        let storiesRef = dbh.collection('stories');//misspelled stories in firebase :/
         
         if(this.state.selectedCat != "all"){
             storiesRef = storiesRef.where("category", "==", this.state.selectedCat);//.orderBy("createdAt", "desc")

@@ -18,7 +18,10 @@ export default class SignupScreen extends Component{
           login:true,
           allowSignUp:false,
           errorMessage:"",
-          showProgress:false
+          showProgress:false,
+          vaildPassword:false,
+          vaildConfirmedPassword:false,
+          vailidUserName:false
         }
         
         this.getEmail = this.getEmail.bind(this);
@@ -32,10 +35,17 @@ export default class SignupScreen extends Component{
               email: e
           })
       }
+
       getPassword = (e) => {
-        if(e == this.state.confirmPassword && e.length > 7 && /\d/.test(e) && /[A-Z]/.test(e)  && this.state.displayName.length >= 3 && !(/^\s*$/.test(this.state.displayName)) ){
+        
+        this.setState({
+          password:  e
+        })
+
+        if(e.length > 7 && /\d/.test(e) && /[A-Z]/.test(e)){
           this.setState({
-            allowSignUp:true
+            vaildPassword:true,
+            errorMessage:""
           })
         }
         else {
@@ -44,23 +54,40 @@ export default class SignupScreen extends Component{
             errorMessage:"Password must be 8 characters long, contain at least 1 number, and 1 least capital letter"
           })
         }
+
+
+        if(e.length > 7 && /\d/.test(e) && /[A-Z]/.test(e) && this.state.displayName.length >= 3 && !(/^\s*$/.test(this.state.displayName)) ){
           this.setState({
-              password:  e
+            vaildPassword:true,
+            allowSignUp:true,
+            errorMessage:""
           })
+        }
       }
 
       getConfirmPassword = (e) => {
           this.setState({
               confirmPassword:  e
           })
-          if(e == this.state.password && e.length > 7 && /\d/.test(e) && /[A-Z]/.test(this.state.password) && this.state.displayName.length >= 3 && !(/^\s*$/.test(this.state.displayName)) ){
+
+          if(e == this.state.password && e.length > 7 && /\d/.test(e) && /[A-Z]/.test(e)){
             this.setState({
-              allowSignUp:true
+              vaildConfirmedPassword:true,
+              errorMessage:""
             })
           }
           else {
             this.setState({
-              allowSignUp:false
+              allowSignUp:false,
+              errorMessage:"Passwords don't match"
+            })
+          }
+
+          
+          if(e == this.state.password && e.length > 7 && /\d/.test(e) && /[A-Z]/.test(e) && this.state.displayName.length >= 3 && !(/^\s*$/.test(this.state.displayName))  ){
+            this.setState({
+              allowSignUp:true,
+              errorMessage:""
             })
           }
       }
@@ -70,19 +97,32 @@ export default class SignupScreen extends Component{
                 displayName:  e
             })
 
-            if(this.state.confirmPassword == this.state.password && this.state.password.length > 7 && /\d/.test(this.state.password) && /[A-Z]/.test(this.state.password) && e.length >= 3 && !(/^\s*$/.test(e)) ){
-              
+           
+
+            if(e.length >= 3 && !(/^\s*$/.test(e)) ){
               this.setState({
-                allowSignUp:true
+                vailidUserName:true,
+                errorMessage:""
               })
             }
             else {
               this.setState({
-                allowSignUp:false
+                allowSignUp:false,
+                errorMessage:"Username is must be 3 characters long"
+              })
+            }
+
+            if(this.state.confirmPassword == this.state.password && this.state.password.length > 7 && /\d/.test(this.state.password) && /[A-Z]/.test(this.state.password) && e.length >= 3 && !(/^\s*$/.test(e)) ){
+              
+              this.setState({
+                vailidUserName:true,
+                allowSignUp:true,
+                errorMessage:""
               })
             }
             
       }
+
       signUp = (e) =>{
         this.setState({showProgress:true})
         const db = firebase.firestore();
@@ -146,6 +186,8 @@ export default class SignupScreen extends Component{
         .catch(err => {
           console.log('Error getting documents', err);
         });
+
+        
 
       }
 
