@@ -190,8 +190,8 @@ export default class ModalFilterScreen extends React.Component{
 
             let favArr =[];
             favArr = this.props.navigation.getParam('fav',"");
-            
-            storiesRef = storiesRef.where("storyId", "in", favArr);
+            if(favArr.length > 0)
+                storiesRef = storiesRef.where("storyId", "in", favArr);
 
         }
         if(this.state.switchNewst)

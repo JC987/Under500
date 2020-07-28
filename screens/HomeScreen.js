@@ -51,14 +51,22 @@ export default class Homescreen extends Component {
       
       fSQL.query(query).then(documents => {
       documents.forEach(doc => {
+        if(!this.state.fetched){
+
         this.setState({
           list: [...this.state.list, {title : doc['title'], author : doc['author'], summary : doc['summary'], body : doc['body'],  
             time: doc['createdAt'], storyId: doc['storyId'] , favList: this.state.userFav }],
-            fetched: true,
-            searched: true,
-        },
-        ); 
+        }
+        );
+      } 
+      
       });
+  }).then(()=>{
+    this.setState({
+        fetched: true,
+        searched: true,
+    }
+    );
   })
   .catch(err => {
     console.log('Error getting documents', err);
@@ -141,13 +149,13 @@ getAllStories(){
     .then(snapshot => {
       snapshot.forEach(doc => {
         console.log("doc is " + doc.data()['title']);
+        if(!this.state.fetched){
           this.setState({
             list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], 
-              body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
-            fetched: true,
-            searched: false
+              body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }]
           },
           ); 
+        }
       });
 
       
@@ -156,6 +164,12 @@ getAllStories(){
         count: snapshot.docs[snapshot.docs.length - 1],
       });
         
+    })
+    .then(() => {
+      this.setState({
+            fetched: true,
+            searched: false
+      })
     })
     .catch(err => {
       console.log('Error getting documents', err);
@@ -171,13 +185,14 @@ render() {
           <View style={{height:75, flexDirection:'row'}}>
           <TextInput style={{borderWidth:1,height:50, backgroundColor: '#fff', margin:4, padding: 0, flex:9}} value={this.state.searchText} onChangeText = {(text) =>{this.searchTextChanged(text)}} placeholder=" Search for a story"/>
               <View style = {{ height:50, marginTop: 8, padding: 2}}>
-                    <Button  color = "#0ca379" style={{flex:1, textAlign:'center', height:50}} onPress={() => {
-                      this.fetchFeedSearched();
+                    <Button  color = "#0ca379" style={{flex:1, textAlign:'center', height:50}} onPress={() =>  {
+                      
                       console.log("buttom pressed   " + this.state.searchText);
                       this.setState({
                         list:[],
                         fetched:false,
-                      })
+                      });
+                      this.fetchFeedSearched();
                     }} title="Search"/>
               </View>
 
