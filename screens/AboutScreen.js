@@ -20,6 +20,7 @@ export default class Aboutscreen extends React.Component {
             showButton:true,
             fetched:false,
             emailSent:false,
+            resetEmailSent:false
         }
 
         this.signOut = this.signOut.bind(this);
@@ -45,14 +46,20 @@ export default class Aboutscreen extends React.Component {
       });
     }
 
-    sendResetEmail = (e) =>{
-      var auth = firebase.auth();
-      var emailAddress = auth.currentUser.email
+    resetPassword = (e) =>{
+    
+    }
 
-      auth.sendPasswordResetEmail(emailAddress).then(function() {
+    sendResetEmail = (e) =>{
+      var emailAddress = firebase.auth().currentUser.email
+      firebase.auth().sendPasswordResetEmail(emailAddress).then(function() {
         // Email sent.
         console.log("reset password");
-      }).catch(function(error) {
+      })
+      .then(()=>{this.setState({
+        resetEmailSent:true
+      })})
+      .catch(function(error) {
         // An error happened.
         console.log(error)
       });
@@ -159,6 +166,11 @@ export default class Aboutscreen extends React.Component {
                   <View style = {{marginTop:32, width: 300}}>
                     <Button color = "darkorange" onPress = {() => {this.sendResetEmail()}} title = "Reset password"/>
                   </View>
+                  {this.state.resetEmailSent &&
+                    <Text style = {{padding:16, fontSize:24}}>
+                      Password reset link sent! Please check your email and follow the instructions.
+                    </Text>
+                  }
 
                   
                   <View style = {{marginTop:32, width: 300}}>
@@ -209,6 +221,16 @@ export default class Aboutscreen extends React.Component {
                           </Text>
               </TouchableOpacity>
 
+              <TouchableOpacity onPress = {() => { this.props.navigation.navigate("ModalResetPassword");}}>
+                          <Text style = {{color:'blue', textDecorationLine:'underline', fontSize:16}}>
+                            Forgot password?
+                          </Text>
+              </TouchableOpacity>
+              {this.state.resetEmailSent &&
+                <Text>
+                  Password reset link sent, please check your email.
+                </Text>
+              }
           </KeyboardAvoidingView>
           
         )

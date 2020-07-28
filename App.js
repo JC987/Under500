@@ -25,6 +25,7 @@ import DetailScreen from './screens/DetailScreen';
 import LoginScreen from './screens/LoginScreen';
 import ModalComposeScreen from './screens/ModalComposeScreen';
 import ModalFilterScreen from './screens/ModalFilterScreen';
+import ModalResetPasswordScreen from './screens/ModalResetPasswordScreen';
 
 export default class App extends React.Component {
   
@@ -102,6 +103,8 @@ const AppNavigator = createStackNavigator({
   },
   ModalFilter:{
     screen: ModalFilterScreen,
+  },ModalResetPassword:{
+    screen: ModalResetPasswordScreen
   }
 },
 {
