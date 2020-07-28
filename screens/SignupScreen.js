@@ -154,6 +154,14 @@ export default class SignupScreen extends Component{
 
                     console.log('Added document: ', ref);
 
+                    firebase.auth().currentUser.sendEmailVerification().then(function() {
+                      // Email sent.
+                      console.log("sent")
+                      console.log(firebase.auth().currentUser.emailVerified)
+                    }).catch(function(error) {
+                      // An error happened.
+                      console.log(error);
+                    });
                 })
               }).then(() => {
                 const resetAction = StackActions.reset({

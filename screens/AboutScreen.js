@@ -19,13 +19,43 @@ export default class Aboutscreen extends React.Component {
             list:[],
             showButton:true,
             fetched:false,
+            emailSent:false,
         }
 
         this.signOut = this.signOut.bind(this);
         this.switchScreens = this.switchScreens.bind(this);
         this.getStories = this.getStories.bind(this);
+        this.resendEmail = this.resendEmail.bind(this);
 
         
+    }
+
+    resendEmail = (e) =>{
+      firebase.auth().currentUser.sendEmailVerification().then(function() {
+        // Email sent.
+        console.log("re-sent")
+        
+      }).then(()=>{
+        this.setState({
+          emailSent:true
+        })
+      }).catch(function(error) {
+        // An error happened.
+        console.log(error);
+      });
+    }
+
+    sendResetEmail = (e) =>{
+      var auth = firebase.auth();
+      var emailAddress = auth.currentUser.email
+
+      auth.sendPasswordResetEmail(emailAddress).then(function() {
+        // Email sent.
+        console.log("reset password");
+      }).catch(function(error) {
+        // An error happened.
+        console.log(error)
+      });
     }
 
   signOut = (e) =>{
@@ -60,7 +90,7 @@ export default class Aboutscreen extends React.Component {
     let user = firebase.auth().currentUser;
     if(user !== null){
     const dbh = firebase.firestore();
-    let storiesRef = dbh.collection('stories');//misspelled stories in firebase :/
+    let storiesRef = dbh.collection('stories');
     let myStories = storiesRef.where('author', '==', user.displayName).get()
     .then(snapshot => {
       console.log(snapshot);
@@ -98,22 +128,36 @@ export default class Aboutscreen extends React.Component {
             <View style = {{padding:32}}>
                 <Text style = {{textDecorationLine:'underline', fontSize:18}}>User Info:</Text>
                 <View>
+                  { !user.emailVerified && 
+                  <View>
+                    <Text style = {{padding:16, fontSize:24}} >
+                    Your email is not verified! Please check your email or click the button to resend it.
+                    </Text>
+                    <Button color = "darkorange" onPress = {() => {this.resendEmail()}} title = {(!this.state.emailSent) ? "Resend Email" : "Email has been sent"}/>
+                  </View>
+                  }
                   <Text style = {{padding:16}}>
-                    User Name : {user.displayName}
+                    User Name : {user.displayName} 
                   </Text>
                   
                   <Text style = {{padding:16}}>
-                    Email : {user.email}
+                    Email : {user.email} 
                   </Text>
                   
                   <Text style = {{padding:16}}>
                     User ID : {user.uid}
                   </Text>
 
+
+
                   <View style = {{justifyContent: 'center', alignItems: 'center'}}>
 
                   <View style = {{marginTop:32, width: 300}}>
                     <Button color = "darkorange" onPress = {() => {this.signOut()}} title = "Sign Out!"/>
+                  </View>
+
+                  <View style = {{marginTop:32, width: 300}}>
+                    <Button color = "darkorange" onPress = {() => {this.sendResetEmail()}} title = "Reset password"/>
                   </View>
 
                   

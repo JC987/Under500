@@ -30,10 +30,25 @@ export default class ModalComposeScreen extends React.Component {
             switchRomance: false,
             switchFantasy: false,
             switchValue: "other",
+            emailSent:false,
             body:[],
         }
     }
 
+    resendEmail = (e) =>{
+      firebase.auth().currentUser.sendEmailVerification().then(function() {
+        // Email sent.
+        console.log("re-sent")
+        
+      }).then(()=>{
+        this.setState({
+          emailSent:true
+        })
+      }).catch(function(error) {
+        // An error happened.
+        console.log(error);
+      });
+    }
    
     
     
@@ -246,7 +261,18 @@ export default class ModalComposeScreen extends React.Component {
     }
     
     render() {
+        if(!firebase.auth().currentUser.emailVerified){
+            return(  
+            <View>
+                <Text style = {{padding:16, fontSize:24}} >
+                Your email is not verified! You need a verified email to post a story! Please check your email or click the button to resend it.
+                </Text>
+                <Button color = "darkorange" onPress = {() => {this.resendEmail()}} title = {(!this.state.emailSent) ? "Resend Email" : "Email has been sent"}/>
+            </View>);
+        }
+        else{ 
       return (
+      
         <View style={{ flex: 1}}>
             <ScrollView>
                 <View style={{height:100}}>
@@ -329,5 +355,7 @@ export default class ModalComposeScreen extends React.Component {
           </ScrollView>
         </View>
       );
+            }
+
     }
   }

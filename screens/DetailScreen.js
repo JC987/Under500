@@ -130,7 +130,10 @@ export default class Detailscreen extends Component {
                     let user = firebase.auth().currentUser;
 
                     if(user != null ){
-                        if(this.state.favButtonText == "Unfavorite"){
+                        if(!user.emailVerified){
+                            alert("You need to verifiy your email to favorite")
+                        }
+                        else if(this.state.favButtonText == "Unfavorite"){
                             this.setState({
                                 favButtonText: "Favorite"
                             });

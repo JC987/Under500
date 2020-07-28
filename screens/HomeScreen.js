@@ -102,6 +102,8 @@ export default class Homescreen extends Component {
 
       if (user) {
         // User is signed in.
+        
+      console.log("verified : " + firebase.auth().currentUser.emailVerified)
         console.log("USER IT TRUE!");
         this.state.list = [];
         const dbh = firebase.firestore();
@@ -143,12 +145,12 @@ getAllStories(){
             list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], 
               body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
             fetched: true,
-            searched: false,
+            searched: false
           },
           ); 
       });
 
-    
+      
 
       this.setState({
         count: snapshot.docs[snapshot.docs.length - 1],
@@ -199,7 +201,7 @@ render() {
             data={this.state.list}
             renderItem={({item}) => <StoryItem title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} time = {item.time} favList = {item.favList} storyId = {item.storyId} /> }
           />
-          {!this.state.searched && this.state.fetched &&
+          {!this.state.searched && this.state.fetched && this.state.list.length >= 5 &&
             <Button title = "Load More"
             onPress = {() => {
               this.loadMoreFeed();
