@@ -220,12 +220,13 @@ export default class Aboutscreen extends React.Component {
                             {this.state.switchText}
                           </Text>
               </TouchableOpacity>
-
-              <TouchableOpacity onPress = {() => { this.props.navigation.navigate("ModalResetPassword");}}>
-                          <Text style = {{color:'blue', textDecorationLine:'underline', fontSize:16}}>
-                            Forgot password?
-                          </Text>
-              </TouchableOpacity>
+              {this.state.login &&
+                <TouchableOpacity onPress = {() => { this.props.navigation.navigate("ModalResetPassword");}}>
+                            <Text style = {{color:'blue', textDecorationLine:'underline', fontSize:16}}>
+                              Forgot password?
+                            </Text>
+                </TouchableOpacity>
+              }
               {this.state.resetEmailSent &&
                 <Text>
                   Password reset link sent, please check your email.

@@ -13,7 +13,7 @@
     "@react-native-community/art": "^1.1.2",
     "@react-native-firebase/app": "^6.2.0",
     "expo": "~36.0.0",
-    "firebase": "^7.6.2",
+    "firebase": "^7.17.1",
     "firesql": "^2.0.2",
     "querybase": "^0.6.0",
     "react": "~16.9.0",

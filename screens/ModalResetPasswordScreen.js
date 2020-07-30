@@ -14,9 +14,20 @@ export default class ModalResetPassword extends React.Component{
         this.state = {
             email:"",
             emailSent:false,
-            errorMessage:"",
+            message:"",
             unregisteredEmail:false
         }
+    }
+
+    showErrorMessage = (e) =>{
+      console.log("show error message")
+        if(!this.state.emailSent){
+          console.log("not sent email")
+        this.setState({
+            unregisteredEmail:true,
+            emailSent:false
+        });
+      }
     }
 
     sendResetEmail = async (e) =>{
@@ -39,20 +50,28 @@ export default class ModalResetPassword extends React.Component{
               })})
               .catch(function(error) {
                 // An error happened.
-                console.log(error)
-              });
-        }).catch(function(error){
-            console.log(error)
-        }).then(() =>{
-            
+                console.log("ERROR:: " + error)
+                //alert("Email not registered!")
+              })
+              .finally(() => {
+                console.log("finally")
+                if(!this.state.emailSent){
                 this.setState({
-                    unregisteredEmail:true,
-                    emailSent:false
+                emailSent:false,
+                unregisteredEmail:true
                 })
+              }
+            });
+        }).catch(function(error){
+            console.log("HEELLLOOOO:: " + error)
         });
 
 
-       
+        if(this.state.emailSent){
+          this.setState({
+            emailSent:false
+            })
+          }
       }
 
       getEmail = (e) => {
