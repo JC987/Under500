@@ -18,6 +18,7 @@ export default class Detailscreen extends Component {
             title: this.props.navigation.getParam('title','no title'),
             displayAuthor: "Written by: "+this.props.navigation.getParam('author','no author'),
             body: this.props.navigation.getParam('body','no body'), 
+            category: this.props.navigation.getParam('category',['No category'])
         }
     }
 
@@ -110,7 +111,10 @@ export default class Detailscreen extends Component {
             <Text style = {styles.authorText}>{this.state.displayAuthor}</Text>
         </View>
           
-      
+        <View style = {styles.author}>
+            <Text style = {styles.authorText}>Category Tags: {this.state.category.join(', ')}</Text>
+        </View>
+
         <View style = {styles.body}>
         
         <Text style = {styles.bodyText}>

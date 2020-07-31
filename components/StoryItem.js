@@ -9,7 +9,7 @@ import '@firebase/firestore';
 import { Card, CardTitle, CardContent, CardAction, CardButton, CardImage } from 'react-native-material-cards';
 
 
-function StoryItem({title, author, body, summary, nav, time, storyId, isFav, favList}){
+function StoryItem({title, author, body, summary, nav, time, storyId, isFav, favList, category}){
   
     
     let user = firebase.auth().currentUser;
@@ -44,13 +44,15 @@ function StoryItem({title, author, body, summary, nav, time, storyId, isFav, fav
                 inColumn={false}>
                 <CardButton
                     onPress={() => {console.log("pressed");
+                    console.log(category)
                     nav.navigation.navigate('Detail', {
                         body: body,
                         authorText: auth,
                         title: title,
                         time: time,
                         author: author,
-                        isFav: isFav
+                        isFav: isFav,
+                        category: category
                     });
                     }}
                 title="Read"

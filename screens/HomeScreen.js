@@ -44,6 +44,25 @@ export default class Homescreen extends Component {
       const fSQL = new FireSQL.FireSQL(dbh);
       let category = this.props.navigation.getParam('category', 'all');
       let query  = '';
+
+      //const dbh = firebase.firestore();
+     /* let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stories').orderBy('createdAt', 'desc'));
+      let allStories = storiesRef.get()
+      .then(snapshot => {
+        snapshot.forEach(doc => {
+          if(!this.state.fetched){
+
+            this.setState({
+              list: [...this.state.list, {title : doc['title'], author : doc['author'], summary : doc['summary'], body : doc['body'],  
+                time: doc['createdAt'], storyId: doc['storyId'] , favList: this.state.userFav }],
+            }
+            );
+          }
+
+        })
+      });
+      */
+
       if( category != 'all')
         query = 'SELECT * FROM stories WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" AND category LIKE "' + category + '" ORDER BY titleUpper'//LIMIT 2';
       else
@@ -55,7 +74,7 @@ export default class Homescreen extends Component {
 
         this.setState({
           list: [...this.state.list, {title : doc['title'], author : doc['author'], summary : doc['summary'], body : doc['body'],  
-            time: doc['createdAt'], storyId: doc['storyId'] , favList: this.state.userFav }],
+            time: doc['createdAt'], storyId: doc['storyId'] , favList: this.state.userFav, category: doc['category'] }],
         }
         );
       } 
@@ -84,7 +103,7 @@ export default class Homescreen extends Component {
         snapshot.forEach(doc => {
           //console.log("load more " + doc.data()['title']);
             this.setState({
-              list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'],body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }],
+              list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'],body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav,  category: doc.data()['category'] }],
               fetched: true,
               
             },
@@ -148,11 +167,11 @@ getAllStories(){
     let allStories = storiesRef.limit(5).get()
     .then(snapshot => {
       snapshot.forEach(doc => {
-        console.log("doc is " + doc.data()['title']);
+        console.log("doc is " + doc.data()['title'] + doc.data()['category']);
         if(!this.state.fetched){
           this.setState({
             list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], 
-              body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav }]
+              body : doc.data()['body'],  time: doc.data()['createdAt'], storyId: doc.data()['storyId'] , favList: this.state.userFav,  category: doc.data()['category'] }]
           },
           ); 
         }
@@ -214,7 +233,7 @@ render() {
           <FlatList
             refreshing = {true}
             data={this.state.list}
-            renderItem={({item}) => <StoryItem title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} time = {item.time} favList = {item.favList} storyId = {item.storyId} /> }
+            renderItem={({item}) => <StoryItem title = {item.title} author = {item.author} summary = {item.summary} body = {item.body} nav = {this.props} time = {item.time} favList = {item.favList} storyId = {item.storyId} category = {item.category} /> }
           />
           {!this.state.searched && this.state.fetched && this.state.list.length >= 5 &&
             <Button title = "Load More"

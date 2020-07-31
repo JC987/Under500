@@ -30,6 +30,7 @@ export default class ModalComposeScreen extends React.Component {
             switchRomance: false,
             switchFantasy: false,
             switchValue: "other",
+            catArr:['other'],
             emailSent:false,
             body:[],
         }
@@ -53,108 +54,148 @@ export default class ModalComposeScreen extends React.Component {
     
     
     handleSwitchAdventure = (e) =>{
-        this.setState({
-            switchAdventure: !this.state.switchAdventure,
-            switchComedy:false,
-            switchFantasy:false,
-            switchHorror:false,
-            switchMystery:false,
-            switchOther:false,
-            switchRomance:false,
-            switchSciFi:false,
-            switchValue:"adventure"
-        })
+      
+        if(this.state.catArr.includes("adventure")){
+            let index = this.state.catArr.indexOf("adventure")
+            this.state.catArr.splice(index,1)
+            console.log(this.state.catArr);
+            this.setState({
+                //switchAll:false,
+                switchAdventure:false
+            })
+        }
+        else{
+            this.state.catArr.push('adventure');
+            console.log(this.state.catArr);
+            this.setState({
+                switchAdventure:true
+            })
+        }
     }
     handleSwitchComedy = (e) =>{
-        this.setState({
-            switchComedy: !this.state.switchComedy,
-            switchAdventure:false,
-            switchFantasy:false,
-            switchHorror:false,
-            switchMystery:false,
-            switchOther:false,
-            switchRomance:false,
-            switchSciFi:false,
-            switchValue:"comedy"
-        })
+        if(this.state.catArr.includes("comedy")){
+            let index = this.state.catArr.indexOf("comedy")
+            this.state.catArr.splice(index,1)
+            console.log(this.state.catArr);
+            this.setState({
+                switchComedy:false
+            })
+        }
+        else{
+            this.state.catArr.push('comedy');
+            console.log(this.state.catArr);
+            this.setState({
+                switchComedy:true
+            })
+        }
     }
     handleSwitchHorror = (e) =>{
-        this.setState({
-            switchHorror: !this.state.switchHorror,
-            switchAdventure:false,
-            switchComedy:false,
-            switchFantasy:false,
-            switchMystery:false,
-            switchOther:false,
-            switchRomance:false,
-            switchSciFi:false,
-            switchValue:"horror"
-        })
+        if(this.state.catArr.includes("horror")){
+            let index = this.state.catArr.indexOf("horror")
+            this.state.catArr.splice(index,1)
+            console.log(this.state.catArr);
+            this.setState({
+                //switchAll:false,
+                switchHorror:false
+            })
+        }
+        else{
+            this.state.catArr.push('horror');
+            console.log(this.state.catArr);
+            this.setState({
+                switchHorror:true
+            })
+        }
     }
     handleSwitchMystery = (e) =>{
-        this.setState({
-            switchMystery: !this.state.switchMystery,
-            switchAdventure:false,
-            switchComedy:false,
-            switchFantasy:false,
-            switchHorror:false,
-            switchOther:false,
-            switchRomance:false,
-            switchSciFi:false,
-            switchValue:"mystery"
-        })
+        if(this.state.catArr.includes("mystery")){
+            let index = this.state.catArr.indexOf("mystery")
+            this.state.catArr.splice(index,1)
+            console.log(this.state.catArr);
+            this.setState({
+                //switchAll:false,
+                switchMystery:false
+            })
+        }
+        else{
+            this.state.catArr.push('mystery');
+            console.log(this.state.catArr);
+            this.setState({
+                switchMystery:true
+            })
+        }
     }
     handleSwitchFantasy = (e) =>{
-        this.setState({
-            switchFantasy: !this.state.switchFantasy,
-            switchAdventure:false,
-            switchComedy:false,
-            switchHorror:false,
-            switchMystery:false,
-            switchOther:false,
-            switchRomance:false,
-            switchSciFi:false,
-            switchValue:"fantasy"
-        })
+        if(this.state.catArr.includes("fantasy")){
+            let index = this.state.catArr.indexOf("fantasy")
+            this.state.catArr.splice(index,1)
+            console.log(this.state.catArr);
+            this.setState({
+                //switchAll:false,
+                switchFantasy:false
+            })
+        }
+        else{
+            this.state.catArr.push('fantasy');
+            console.log(this.state.catArr);
+            this.setState({
+                switchFantasy:true
+            })
+        }
     }
     handleSwitchSciFi = (e) =>{
-        this.setState({
-            switchSciFi: !this.state.switchSciFi,
-            switchAdventure:false,
-            switchComedy:false,
-            switchFantasy:false,
-            switchHorror:false,
-            switchMystery:false,
-            switchOther:false,
-            switchRomance:false,
-            switchValue:"scifi"
-        })
+        if(this.state.catArr.includes("scifi")){
+            let index = this.state.catArr.indexOf("scifi")
+            this.state.catArr.splice(index,1)
+            console.log(this.state.catArr);
+            this.setState({
+                //switchAll:false,
+                switchSciFi:false
+            })
+        }
+        else{
+            this.state.catArr.push('scifi');
+            console.log(this.state.catArr);
+            this.setState({
+                switchSciFi:true
+            })
+        }
     }
     handleSwitchRomance = (e) =>{
-        this.setState({
-            switchRomance: !this.state.switchRomance,
-            switchAdventure:false,
-            switchComedy:false,
-            switchFantasy:false,
-            switchHorror:false,
-            switchMystery:false,
-            switchOther:false,
-            switchSciFi:false,
-            switchValue:"romance"
-        })
+        if(this.state.catArr.includes("romance")){
+            let index = this.state.catArr.indexOf("romance")
+            this.state.catArr.splice(index,1)
+            console.log(this.state.catArr);
+            this.setState({
+                //switchAll:false,
+                switchRomance:false
+            })
+        }
+        else{
+            this.state.catArr.push('romance');
+            console.log(this.state.catArr);
+            this.setState({
+                switchRomance:true
+            })
+        }
     }
     handleSwitchOther = (e) =>{
-        this.setState({
-            switchOther: !this.state.switchOther,
-            switchAdventure:false,
-            switchComedy:false,
-            switchFantasy:false,
-            switchHorror:false,
-            switchMystery:false,
-            switchRomance:false,
-            switchSciFi:false,
-            switchValue:"other"
-        })
+        if(this.state.catArr.includes("other")){
+            let index = this.state.catArr.indexOf("other")
+            this.state.catArr.splice(index,1)
+            console.log(this.state.catArr);
+            this.setState({
+                //switchAll:false,
+                switchOther:false
+            })
+        }
+        else{
+            this.state.catArr.push('other');
+            console.log(this.state.catArr);
+            this.setState({
+                switchOther:true
+            })
+        }
     }
 
     handleTextInput = (text, currentText, maxWords) =>{
@@ -232,7 +273,7 @@ export default class ModalComposeScreen extends React.Component {
                     body: storyBody,
                     author: displayName,
                     storyId: docName,
-                    category: this.state.switchValue,
+                    category: this.state.catArr,
                     createdAt: date
 
                 }).then( () =>  {
