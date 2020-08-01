@@ -48,7 +48,19 @@ export default class ModalFilterScreen extends React.Component{
     switchFavorite = (e) =>{
         this.setState({
             switchFavorite: !this.state.switchFavorite,
+            switchAll: true,
+                switchAdv: true,
+                switchComedy: true,
+                switchHorror: true,
+                switchFantasy: true,
+                switchSciFi: true,
+                switchOther: true,
+                switchRomance:true,
+                switchMystery:true,
+                selectedCat: 'all',
+                catArr:['adventure','comedy','horror','fantasy','scifi','romance','mystery','other']
         })
+        
     }
 
     //TODO: Refactor code so that I don't need a seperate function for every switch
@@ -347,10 +359,10 @@ export default class ModalFilterScreen extends React.Component{
         const dbh = firebase.firestore();
         let storiesRef = dbh.collection('stories');//misspelled stories in firebase :/
         
-        if(this.state.selectedCat != "all"){
-            storiesRef = storiesRef.where("category","array-contains-any", this.state.catArr);//.orderBy("createdAt", "desc")
-        }
         if(this.state.switchFavorite){
+            this.setState({
+                catArr:['adventure','comedy','horror','fantasy','scifi','romance','mystery','other']
+            })
 
             let favArr =[];
             favArr = this.props.navigation.getParam('fav',"");
@@ -358,6 +370,10 @@ export default class ModalFilterScreen extends React.Component{
                 storiesRef = storiesRef.where("storyId", "in", favArr);
 
         }
+        else if(this.state.selectedCat != "all"){
+            storiesRef = storiesRef.where("category","array-contains-any", this.state.catArr);//.orderBy("createdAt", "desc")
+        }
+        
         if(this.state.switchNewst)
             storiesRef = storiesRef.orderBy("createdAt", "desc");
         else
@@ -370,6 +386,8 @@ export default class ModalFilterScreen extends React.Component{
                 search: this.props.navigation.getParam('search',""),
                 fetch: true,
                 category: this.state.catArr,
+                showFavorites: this.state.switchFavorite,
+                showNewest: this.state.switchNewst
                 } 
             } )],
         });

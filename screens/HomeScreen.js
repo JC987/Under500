@@ -22,6 +22,7 @@ export default class Homescreen extends Component {
       userFav:[],
       count:0,
       searched: false,
+      appliedFilters:""
     }
     this.fetchFeed();
   
@@ -62,7 +63,9 @@ export default class Homescreen extends Component {
         })
       });
       */
-
+     this.setState({
+      appliedFilters:"Categories filtered: " + category.join(', ') + "\t \t Sorting options: " +( (sortOrder) ? "Newset First" : "Oldest First" )+ ((showFavorites) ? "\t \t Showing only favorites" : "")
+    })
       if( category != 'all')
         query = 'SELECT * FROM stories WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" AND category LIKE "' + category + '" ORDER BY titleUpper'//LIMIT 2';
       else
@@ -97,7 +100,12 @@ export default class Homescreen extends Component {
   loadMoreFeed = (e) => {
     if(this.state.count != undefined){
       const dbh = firebase.firestore();
+     
       let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stories').orderBy('createdAt', 'desc'));
+      let category = this.props.navigation.getParam('category', []);
+      this.setState({
+        appliedFilters:"Categories filtered: " + category.join(', ') + "\t \t Sorting options: " +( (sortOrder) ? "Newset First" : "Oldest First" )+ ((showFavorites) ? "\t \t Showing only favorites" : "")
+      })
       let allStories = storiesRef.startAfter(this.state.count.data().createdAt).limit(5).get()
       .then(snapshot => {
         snapshot.forEach(doc => {
@@ -161,8 +169,16 @@ export default class Homescreen extends Component {
 
 getAllStories(){
   const dbh = firebase.firestore();
-  console.log("get all stories")
+  console.log("get all stories");
+  
   let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stories').orderBy('createdAt', 'desc'));
+  let category = this.props.navigation.getParam('category', ['all']);
+  let showFavorites = this.props.navigation.getParam('showFavorites', false);
+  let sortOrder = this.props.navigation.getParam('showNewest', true);
+
+  this.setState({
+    appliedFilters:"Categories filtered: " + category.join(', ') + "\t \t Sorting options: " +( (sortOrder) ? "Newset First" : "Oldest First" )+ ((showFavorites) ? "\t \t Showing only favorites" : "")
+  })
   console.log(storiesRef);
     let allStories = storiesRef.limit(5).get()
     .then(snapshot => {
@@ -229,6 +245,11 @@ render() {
           {
             !this.state.fetched &&
             <ProgressBar width={null} indeterminate={true} />
+          }
+          {this.state.fetched &&
+            <Text>
+              {this.state.appliedFilters}
+            </Text>
           }
           <FlatList
             refreshing = {true}
