@@ -43,7 +43,9 @@ export default class Homescreen extends Component {
     }
       const dbh = firebase.firestore();
       const fSQL = new FireSQL.FireSQL(dbh);
-      let category = this.props.navigation.getParam('category', 'all');
+      let category = this.props.navigation.getParam('category', ['all']);
+      let showFavorites = this.props.navigation.getParam('showFavorites', false);
+      let sortOrder = this.props.navigation.getParam('showNewest', true);
       let query  = '';
 
       //const dbh = firebase.firestore();
@@ -103,6 +105,9 @@ export default class Homescreen extends Component {
      
       let storiesRef = this.props.navigation.getParam('filter', dbh.collection('stories').orderBy('createdAt', 'desc'));
       let category = this.props.navigation.getParam('category', []);
+          
+      let showFavorites = this.props.navigation.getParam('showFavorites', false);
+      let sortOrder = this.props.navigation.getParam('showNewest', true);
       this.setState({
         appliedFilters:"Categories filtered: " + category.join(', ') + "\t \t Sorting options: " +( (sortOrder) ? "Newset First" : "Oldest First" )+ ((showFavorites) ? "\t \t Showing only favorites" : "")
       })
@@ -127,7 +132,7 @@ export default class Homescreen extends Component {
         console.log('Error getting documents', err);
       });
 
-    }
+    } 
   }
 
   fetchFeed =  (e) => {
@@ -138,9 +143,10 @@ export default class Homescreen extends Component {
       if (user) {
         // User is signed in.
         
-      console.log("verified : " + firebase.auth().currentUser.emailVerified)
+        console.log("verified : " + firebase.auth().currentUser.emailVerified)
         console.log("USER IT TRUE!");
-        this.state.list = [];
+        if(!this.state.fetched)
+          this.state.list = [];
         const dbh = firebase.firestore();
         await dbh.collection('users').where("userId", "==", user.uid).get()
         .then(snapshot => {

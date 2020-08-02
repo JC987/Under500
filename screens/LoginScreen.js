@@ -40,13 +40,17 @@ export default class LoginScreen extends Component{
       })
       if (user) {
         console.log("already signed in");
-        this.props.nav.navigate("Home");
+        this.props.nav.navigate("Home", {
+          loggedIn: true
+        });
       } 
       else {
         console.log("not signed in");
   
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(() => {
-          this.props.nav.navigate("Home");
+        this.props.nav.navigate("Home", {
+          loggedIn: true
+        });
         }).catch((error) => {
           this.setState({
             errorMessage: "Can't find a matching email and password.",
