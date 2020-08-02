@@ -65,19 +65,6 @@ export default class ModalFilterScreen extends React.Component{
 
     //TODO: Refactor code so that I don't need a seperate function for every switch
     switchAdv = (e) =>{
-        /*this.setState({
-            switchAdv: !this.state.switchAdv,
-            switchComedy: false,
-            switchHorror: false,
-            switchFantasy: false,
-            switchSciFi: false,
-            switchOther: false,
-            switchMystery: false,
-            switchRomance: false,
-            switchAll: this.state.switchAdv,
-            catArr:[],
-            selectedCat: (this.state.switchAdv) ? "all" : "adventure"
-        })*/
         if(this.state.catArr.includes("adventure")){
             let index = this.state.catArr.indexOf("adventure")
             this.state.catArr.splice(index,1)
@@ -96,18 +83,6 @@ export default class ModalFilterScreen extends React.Component{
         }
     }
     switchComedy = (e) =>{
-       /* this.setState({
-            switchComedy: !this.state.switchComedy,
-            switchAdv: false,
-            switchHorror: false,
-            switchFantasy: false,
-            switchSciFi: false,
-            switchOther: false,
-            switchMystery: false,
-            switchRomance: false,
-            switchAll: this.state.switchComedy,
-            selectedCat: (this.state.switchComedy) ? "all" : 'comedy',
-        })*/
         if(this.state.catArr.includes("comedy")){
             let index = this.state.catArr.indexOf("comedy")
             this.state.catArr.splice(index,1)
@@ -127,18 +102,6 @@ export default class ModalFilterScreen extends React.Component{
         }
     }
     switchHorror = (e) =>{
-        /*this.setState({
-            switchHorror: !this.state.switchHorror,
-            switchAdv: false,
-            switchComedy: false,
-            switchFantasy: false,
-            switchSciFi: false,
-            switchOther: false,
-            switchMystery: false,
-            switchRomance: false,
-            switchAll: this.state.switchHorror,
-            selectedCat: (this.state.switchHorror) ? "all" : 'horror',
-        })*/
         if(this.state.catArr.includes("horror")){
             let index = this.state.catArr.indexOf("horror")
             this.state.catArr.splice(index,1)
@@ -158,18 +121,6 @@ export default class ModalFilterScreen extends React.Component{
         }
     }
     switchFantasy = (e) =>{
-        /*this.setState({
-            switchFantasy: !this.state.switchFantasy,
-            switchAdv: false,
-            switchComedy: false,
-            switchHorror: false,
-            switchSciFi: false,
-            switchOther: false,
-            switchMystery: false,
-            switchRomance: false,
-            switchAll:  this.state.switchFantasy,
-            selectedCat: (this.state.switchFantasy) ? "all" : 'fantasy',
-        })*/
         if(this.state.catArr.includes("fantasy")){
             let index = this.state.catArr.indexOf("fantasy")
             this.state.catArr.splice(index,1)
@@ -189,18 +140,6 @@ export default class ModalFilterScreen extends React.Component{
         }
     }
     switchSciFi = (e) =>{
-        /*this.setState({
-            switchSciFi: !this.state.switchSciFi,
-            switchAdv: false,
-            switchComedy: false,
-            switchHorror: false,
-            switchFantasy: false,
-            switchOther: false,
-            switchMystery: false,
-            switchRomance: false,
-            switchAll:  this.state.switchSciFi,
-            selectedCat: (this.state.switchSciFi) ? "all" : 'scifi',
-        })*/
         if(this.state.catArr.includes("scifi")){
             let index = this.state.catArr.indexOf("scifi")
             this.state.catArr.splice(index,1)
@@ -220,18 +159,6 @@ export default class ModalFilterScreen extends React.Component{
         }
     }
     switchOther = (e) =>{
-        /*this.setState({
-            switchOther: !this.state.switchOther,
-            switchAdv: false,
-            switchComedy: false,
-            switchHorror: false,
-            switchFantasy: false,
-            switchSciFi: false,
-            switchMystery: false,
-            switchRomance: false,
-            switchAll: this.state.switchOther,
-            selectedCat: (this.state.switchOther) ? "all" : 'other',
-        })*/
         if(this.state.catArr.includes("other")){
             let index = this.state.catArr.indexOf("other")
             this.state.catArr.splice(index,1)
@@ -252,18 +179,6 @@ export default class ModalFilterScreen extends React.Component{
     }
 
     switchRomance = (e) =>{
-        /*this.setState({
-            switchRomance: !this.state.switchRomance,
-            switchAdv: false,
-            switchComedy: false,
-            switchHorror: false,
-            switchFantasy: false,
-            switchSciFi: false,
-            switchMystery: false,
-            switchOther: false,
-            switchAll: this.state.switchRomance,
-            selectedCat: (this.state.switchOther) ? "all" : 'romance',
-        })*/
 
         if(this.state.catArr.includes("romance")){
             let index = this.state.catArr.indexOf("romance")
@@ -285,19 +200,6 @@ export default class ModalFilterScreen extends React.Component{
     }
 
     switchMystery = (e) =>{
-    /*    this.setState({
-            switchMystery: !this.state.switchMystery,
-            switchAdv: false,
-            switchComedy: false,
-            switchHorror: false,
-            switchFantasy: false,
-            switchSciFi: false,
-            switchOther: false,
-            switchRomance: false,
-            switchAll: this.state.switchMystery,
-            selectedCat: (this.state.switchMystery) ? "all" : 'mystery',
-           // catArr:(!this.state.catArr.includes("mystery"))? this.state.catArr.push("mystery") : this.state.catArr.index("mystery")
-        })*/
 
         if(this.state.catArr.includes("mystery")){
             let index = this.state.catArr.indexOf("mystery")
@@ -357,7 +259,7 @@ export default class ModalFilterScreen extends React.Component{
     apply = (e) =>{
         //console.log(this.state.selectedCat);
         const dbh = firebase.firestore();
-        let storiesRef = dbh.collection('stories');//misspelled stories in firebase :/
+        let storiesRef = dbh.collection('stories')
         
         if(this.state.switchFavorite){
             this.setState({

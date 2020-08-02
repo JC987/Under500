@@ -58,7 +58,6 @@ export default class ModalComposeScreen extends React.Component {
         if(this.state.catArr.includes("adventure")){
             let index = this.state.catArr.indexOf("adventure")
             this.state.catArr.splice(index,1)
-            console.log(this.state.catArr);
             this.setState({
                 //switchAll:false,
                 switchAdventure:false
@@ -66,7 +65,6 @@ export default class ModalComposeScreen extends React.Component {
         }
         else{
             this.state.catArr.push('adventure');
-            console.log(this.state.catArr);
             this.setState({
                 switchAdventure:true
             })
@@ -76,14 +74,12 @@ export default class ModalComposeScreen extends React.Component {
         if(this.state.catArr.includes("comedy")){
             let index = this.state.catArr.indexOf("comedy")
             this.state.catArr.splice(index,1)
-            console.log(this.state.catArr);
             this.setState({
                 switchComedy:false
             })
         }
         else{
             this.state.catArr.push('comedy');
-            console.log(this.state.catArr);
             this.setState({
                 switchComedy:true
             })
@@ -93,7 +89,6 @@ export default class ModalComposeScreen extends React.Component {
         if(this.state.catArr.includes("horror")){
             let index = this.state.catArr.indexOf("horror")
             this.state.catArr.splice(index,1)
-            console.log(this.state.catArr);
             this.setState({
                 //switchAll:false,
                 switchHorror:false
@@ -101,7 +96,6 @@ export default class ModalComposeScreen extends React.Component {
         }
         else{
             this.state.catArr.push('horror');
-            console.log(this.state.catArr);
             this.setState({
                 switchHorror:true
             })
@@ -111,7 +105,6 @@ export default class ModalComposeScreen extends React.Component {
         if(this.state.catArr.includes("mystery")){
             let index = this.state.catArr.indexOf("mystery")
             this.state.catArr.splice(index,1)
-            console.log(this.state.catArr);
             this.setState({
                 //switchAll:false,
                 switchMystery:false
@@ -119,7 +112,6 @@ export default class ModalComposeScreen extends React.Component {
         }
         else{
             this.state.catArr.push('mystery');
-            console.log(this.state.catArr);
             this.setState({
                 switchMystery:true
             })
@@ -129,7 +121,6 @@ export default class ModalComposeScreen extends React.Component {
         if(this.state.catArr.includes("fantasy")){
             let index = this.state.catArr.indexOf("fantasy")
             this.state.catArr.splice(index,1)
-            console.log(this.state.catArr);
             this.setState({
                 //switchAll:false,
                 switchFantasy:false
@@ -137,7 +128,6 @@ export default class ModalComposeScreen extends React.Component {
         }
         else{
             this.state.catArr.push('fantasy');
-            console.log(this.state.catArr);
             this.setState({
                 switchFantasy:true
             })
@@ -147,7 +137,6 @@ export default class ModalComposeScreen extends React.Component {
         if(this.state.catArr.includes("scifi")){
             let index = this.state.catArr.indexOf("scifi")
             this.state.catArr.splice(index,1)
-            console.log(this.state.catArr);
             this.setState({
                 //switchAll:false,
                 switchSciFi:false
@@ -155,7 +144,6 @@ export default class ModalComposeScreen extends React.Component {
         }
         else{
             this.state.catArr.push('scifi');
-            console.log(this.state.catArr);
             this.setState({
                 switchSciFi:true
             })
@@ -165,7 +153,6 @@ export default class ModalComposeScreen extends React.Component {
         if(this.state.catArr.includes("romance")){
             let index = this.state.catArr.indexOf("romance")
             this.state.catArr.splice(index,1)
-            console.log(this.state.catArr);
             this.setState({
                 //switchAll:false,
                 switchRomance:false
@@ -173,7 +160,6 @@ export default class ModalComposeScreen extends React.Component {
         }
         else{
             this.state.catArr.push('romance');
-            console.log(this.state.catArr);
             this.setState({
                 switchRomance:true
             })
@@ -183,7 +169,6 @@ export default class ModalComposeScreen extends React.Component {
         if(this.state.catArr.includes("other")){
             let index = this.state.catArr.indexOf("other")
             this.state.catArr.splice(index,1)
-            console.log(this.state.catArr);
             this.setState({
                 //switchAll:false,
                 switchOther:false
@@ -191,7 +176,6 @@ export default class ModalComposeScreen extends React.Component {
         }
         else{
             this.state.catArr.push('other');
-            console.log(this.state.catArr);
             this.setState({
                 switchOther:true
             })
@@ -257,7 +241,6 @@ export default class ModalComposeScreen extends React.Component {
         let myStories = []; 
         
         let docName = displayName + date;
-            console.log("here");
 
             let getMyStories = await db.collection('users').where("userId", "==", user.uid).get()
             .then(snapshot => {
@@ -278,8 +261,6 @@ export default class ModalComposeScreen extends React.Component {
 
                 }).then( () =>  {
                     myStories.push(docName);
-                    console.log(myStories);
-
                     let setStory = db.collection('users').doc(user.uid).update({
                         myStories: myStories
                     }).then( () => {

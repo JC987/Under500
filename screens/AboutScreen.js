@@ -117,7 +117,7 @@ export default class Aboutscreen extends React.Component {
 
 
   switchScreens = (e) =>{
-    console.log("switch");
+    console.log("switch screens");
     this.setState({
       switchText: (!this.state.login) ? "Or Sign Up" : "Or Log In",
       login:!this.state.login

@@ -20,7 +20,6 @@ export default class ModalResetPassword extends React.Component{
     }
 
     showErrorMessage = (e) =>{
-      console.log("show error message")
         if(!this.state.emailSent){
           console.log("not sent email")
         this.setState({
@@ -35,7 +34,6 @@ export default class ModalResetPassword extends React.Component{
         await dbh.collection('users').where("email", "==", this.state.email).get()
         .then(snapshot => {
           snapshot.forEach(doc => {
-              console.log("found");
                 console.log(doc.data())
           });
 
@@ -54,7 +52,6 @@ export default class ModalResetPassword extends React.Component{
                 //alert("Email not registered!")
               })
               .finally(() => {
-                console.log("finally")
                 if(!this.state.emailSent){
                 this.setState({
                 emailSent:false,
@@ -63,7 +60,6 @@ export default class ModalResetPassword extends React.Component{
               }
             });
         }).catch(function(error){
-            console.log("HEELLLOOOO:: " + error)
         });
 
 

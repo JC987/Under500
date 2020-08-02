@@ -69,9 +69,9 @@ export default class Homescreen extends Component {
       appliedFilters:"Categories filtered: " + category.join(', ') + "\t \t Sorting options: " +( (sortOrder) ? "Newset First" : "Oldest First" )+ ((showFavorites) ? "\t \t Showing only favorites" : "")
     })
       if( category != 'all')
-        query = 'SELECT * FROM stories WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" AND category LIKE "' + category + '" ORDER BY titleUpper'//LIMIT 2';
+        query = 'SELECT * FROM stories WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%" AND category LIKE "' + category + '" ORDER BY titleUpper'
       else
-        query = 'SELECT * FROM stories WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%"'// LIMIT 2';
+        query = 'SELECT * FROM stories WHERE titleUpper LIKE '+ '"'+ String(this.state.searchText).toUpperCase() +'%"'
       
       fSQL.query(query).then(documents => {
       documents.forEach(doc => {
@@ -143,8 +143,7 @@ export default class Homescreen extends Component {
       if (user) {
         // User is signed in.
         
-        console.log("verified : " + firebase.auth().currentUser.emailVerified)
-        console.log("USER IT TRUE!");
+       // console.log("verified : " + firebase.auth().currentUser.emailVerified)
         if(!this.state.fetched)
           this.state.list = [];
         const dbh = firebase.firestore();
@@ -184,12 +183,12 @@ getAllStories(){
 
   this.setState({
     appliedFilters:"Categories filtered: " + category.join(', ') + "\t \t Sorting options: " +( (sortOrder) ? "Newset First" : "Oldest First" )+ ((showFavorites) ? "\t \t Showing only favorites" : "")
-  })
-  console.log(storiesRef);
-    let allStories = storiesRef.limit(5).get()
+  });
+  
+  let allStories = storiesRef.limit(5).get()
     .then(snapshot => {
       snapshot.forEach(doc => {
-        console.log("doc is " + doc.data()['title'] + doc.data()['category']);
+        //console.log("doc is " + doc.data()['title'] + doc.data()['category']);
         if(!this.state.fetched){
           this.setState({
             list: [...this.state.list, {title : doc.data()['title'], author : doc.data()['author'], summary : doc.data()['summary'], 
@@ -215,7 +214,6 @@ getAllStories(){
     .catch(err => {
       console.log('Error getting documents', err);
     });
-    console.log(allStories)
 }
 
 render() {
@@ -227,8 +225,6 @@ render() {
           <TextInput style={{borderWidth:1,height:50, backgroundColor: '#fff', margin:4, padding: 0, flex:9}} value={this.state.searchText} onChangeText = {(text) =>{this.searchTextChanged(text)}} placeholder=" Search for a story"/>
               <View style = {{ height:50, marginTop: 8, padding: 2}}>
                     <Button  color = "#0ca379" style={{flex:1, textAlign:'center', height:50}} onPress={() =>  {
-                      
-                      console.log("buttom pressed   " + this.state.searchText);
                       this.setState({
                         list:[],
                         fetched:false,
