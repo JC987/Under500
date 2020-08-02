@@ -29,6 +29,9 @@ export default class ModalComposeScreen extends React.Component {
             switchSciFi: false,
             switchRomance: false,
             switchFantasy: false,
+            switchFiction: false,
+            switchNonFiction: false,
+            switchPoetry: false,
             switchValue: "other",
             catArr:['other'],
             emailSent:false,
@@ -52,135 +55,157 @@ export default class ModalComposeScreen extends React.Component {
     }
    
     
-    
-    handleSwitchAdventure = (e) =>{
-      
-        if(this.state.catArr.includes("adventure")){
-            let index = this.state.catArr.indexOf("adventure")
+  
+ 
+    whenCategoryIncluded = (e) => {
+        switch (e){
+                case 'adventure':
+                    this.setState({
+                        switchAll:false,
+                        switchAdventure:false
+                    });
+                    break;
+                case 'comedy':
+                    this.setState({
+                        switchAll:false,
+                        switchComedy:false
+                    });
+                    break;
+                case 'horror':
+                    this.setState({
+                        switchAll:false,
+                        switchHorror:false
+                    });
+                    break;
+                case 'fantasy':
+                    this.setState({
+                        switchAll:false,
+                        switchFantasy:false
+                    });
+                    break;
+                case 'fiction':
+                    this.setState({
+                        switchAll:false,
+                        switchFiction:false
+                    });
+                    break;
+                case 'nonfiction':
+                    this.setState({
+                        switchAll:false,
+                        switchNonFiction:false
+                    });
+                    break;
+                case 'poetry':
+                    this.setState({
+                        switchAll:false,
+                        switchPoetry:false
+                    });
+                    break;
+                case 'scifi':
+                    this.setState({
+                        switchAll:false,
+                        switchSciFi:false
+                    });
+                    break;
+                case 'romance':
+                    this.setState({
+                        switchAll:false,
+                        switchRomance:false
+                    });
+                    break;
+                case 'mystery':
+                    this.setState({
+                        switchAll:false,
+                        switchMystery:false
+                    });
+                    break;
+                case 'other':
+                    this.setState({
+                        switchAll:false,
+                        switchOther:false
+                    });
+                    break;
+                default:
+                    break;
+    }
+}
+
+    whenCategoryNotIncluded = (e) => {
+        switch (e){
+                case 'adventure':
+                    this.setState({
+                        switchAdventure:true
+                    })
+                    break;
+                case 'comedy':
+                    this.setState({
+                        switchComedy:true
+                    })
+                    break;
+                case 'horror':
+                    this.setState({
+                        switchHorror:true
+                    })
+                    break;
+                case 'fantasy':
+                    this.setState({
+                        switchFantasy:true
+                    })
+                    break;
+                case 'nonfiction':
+                    this.setState({
+                        switchFiction:true
+                    })
+                case 'nonfiction':
+                    this.setState({
+                        switchNonFiction:true
+                    })
+                    break;
+                case 'poetry':
+                    this.setState({
+                        switchPoetry:true
+                    })
+                    break;
+                case 'scifi':
+                    this.setState({
+                        switchSciFi:true
+                    })
+                    break;
+                case 'romance':
+                    this.setState({
+                        switchRomance:true
+                    })
+                    break;
+                case 'mystery':
+                    this.setState({
+                        switchMystery:true
+                    })
+                    break;
+                case 'other':
+                    this.setState({
+                        switchOther:true
+                    })
+                    break;
+                default:
+                    break;
+    }
+    }
+
+    //TODO: Refactor code so that I don't need a seperate function for every switch
+    updateArray = (e) =>{
+        if(this.state.catArr.includes(e)){
+            let index = this.state.catArr.indexOf(e)
             this.state.catArr.splice(index,1)
-            this.setState({
-                //switchAll:false,
-                switchAdventure:false
-            })
+            console.log(this.state.catArr);
+            this.whenCategoryIncluded(e)
         }
         else{
-            this.state.catArr.push('adventure');
-            this.setState({
-                switchAdventure:true
-            })
+            this.state.catArr.push(e);
+            console.log(this.state.catArr);
+            this.whenCategoryNotIncluded(e)
         }
     }
-    handleSwitchComedy = (e) =>{
-        if(this.state.catArr.includes("comedy")){
-            let index = this.state.catArr.indexOf("comedy")
-            this.state.catArr.splice(index,1)
-            this.setState({
-                switchComedy:false
-            })
-        }
-        else{
-            this.state.catArr.push('comedy');
-            this.setState({
-                switchComedy:true
-            })
-        }
-    }
-    handleSwitchHorror = (e) =>{
-        if(this.state.catArr.includes("horror")){
-            let index = this.state.catArr.indexOf("horror")
-            this.state.catArr.splice(index,1)
-            this.setState({
-                //switchAll:false,
-                switchHorror:false
-            })
-        }
-        else{
-            this.state.catArr.push('horror');
-            this.setState({
-                switchHorror:true
-            })
-        }
-    }
-    handleSwitchMystery = (e) =>{
-        if(this.state.catArr.includes("mystery")){
-            let index = this.state.catArr.indexOf("mystery")
-            this.state.catArr.splice(index,1)
-            this.setState({
-                //switchAll:false,
-                switchMystery:false
-            })
-        }
-        else{
-            this.state.catArr.push('mystery');
-            this.setState({
-                switchMystery:true
-            })
-        }
-    }
-    handleSwitchFantasy = (e) =>{
-        if(this.state.catArr.includes("fantasy")){
-            let index = this.state.catArr.indexOf("fantasy")
-            this.state.catArr.splice(index,1)
-            this.setState({
-                //switchAll:false,
-                switchFantasy:false
-            })
-        }
-        else{
-            this.state.catArr.push('fantasy');
-            this.setState({
-                switchFantasy:true
-            })
-        }
-    }
-    handleSwitchSciFi = (e) =>{
-        if(this.state.catArr.includes("scifi")){
-            let index = this.state.catArr.indexOf("scifi")
-            this.state.catArr.splice(index,1)
-            this.setState({
-                //switchAll:false,
-                switchSciFi:false
-            })
-        }
-        else{
-            this.state.catArr.push('scifi');
-            this.setState({
-                switchSciFi:true
-            })
-        }
-    }
-    handleSwitchRomance = (e) =>{
-        if(this.state.catArr.includes("romance")){
-            let index = this.state.catArr.indexOf("romance")
-            this.state.catArr.splice(index,1)
-            this.setState({
-                //switchAll:false,
-                switchRomance:false
-            })
-        }
-        else{
-            this.state.catArr.push('romance');
-            this.setState({
-                switchRomance:true
-            })
-        }
-    }
-    handleSwitchOther = (e) =>{
-        if(this.state.catArr.includes("other")){
-            let index = this.state.catArr.indexOf("other")
-            this.state.catArr.splice(index,1)
-            this.setState({
-                //switchAll:false,
-                switchOther:false
-            })
-        }
-        else{
-            this.state.catArr.push('other');
-            this.setState({
-                switchOther:true
-            })
-        }
-    }
+
 
     handleTextInput = (text, currentText, maxWords) =>{
             let spaces  = text.split(' ');
@@ -323,30 +348,30 @@ export default class ModalComposeScreen extends React.Component {
                     <View style={{flexDirection:'row', flexWrap:'wrap',margin:8}}>
                         <View style={{flexDirection:'row'}}>
                             <Switch style={{marginLeft:16}} value={this.state.switchAdventure}  
-                                onValueChange ={() => {this.handleSwitchAdventure()}}></Switch>
+                                onValueChange ={() => {this.updateArray('adventure')}}></Switch>
                             <Text style={{marginLeft:16}}>Adventure</Text>
                             <Switch style={{marginLeft:16}} value={this.state.switchComedy}  
-                                onValueChange ={() => {this.handleSwitchComedy()}}></Switch>
+                                onValueChange ={() => {this.updateArray('comedy')}}></Switch>
                             <Text style={{marginLeft:16}}>Comedy</Text>
                         </View>
                         
                         <View style={{flexDirection:'row'}}>
                             <Switch style={{marginLeft:16}} value={this.state.switchHorror}  
-                                onValueChange ={() => {this.handleSwitchHorror()}}></Switch>
+                                onValueChange ={() => {this.updateArray('horror')}}></Switch>
                             <Text style={{marginLeft:16}}>Horror</Text>
 
                             <Switch style={{marginLeft:16}} value={this.state.switchSciFi}  
-                                onValueChange ={() => {this.handleSwitchSciFi()}}></Switch>
+                                onValueChange ={() => {this.updateArray('scifi')}}></Switch>
                             <Text style={{marginLeft:16}}>Science-Ficition</Text>
                         </View>
 
                         <View style={{flexDirection:'row'}}>
                             <Switch style={{marginLeft:16}} value={this.state.switchMystery}  
-                                onValueChange ={() => {this.handleSwitchMystery()}}></Switch>
+                                onValueChange ={() => {this.updateArray('mystery')}}></Switch>
                             <Text style={{marginLeft:16}}>Mystery</Text>
 
                             <Switch style={{marginLeft:16}} value={this.state.switchRomance}  
-                                onValueChange ={() => {this.handleSwitchRomance()}}></Switch>
+                                onValueChange ={() => {this.updateArray('romance')}}></Switch>
                             <Text style={{marginLeft:16}}>Romance</Text>
                         </View>
                             
@@ -354,14 +379,35 @@ export default class ModalComposeScreen extends React.Component {
                         <View style={{flexDirection:'row'}}>
                         
                             <Switch style={{marginLeft:16}} value={this.state.switchFantasy}  
-                                onValueChange ={() => {this.handleSwitchFantasy()}}/> 
+                                onValueChange ={() => {this.updateArray('fantasy')}}/> 
                             <Text style={{marginLeft:16}}>Fantasy</Text>
 
+                            <Switch style={{marginLeft:16}} value={this.state.switchFiction}  
+                                onValueChange ={() => {this.updateArray('fiction')}}/> 
+                            <Text style={{marginLeft:16}}>Fiction</Text>
+
                             
-                            <Switch style={{marginLeft:16}} value={this.state.switchOther}  
-                                onValueChange ={()=>{this.handleSwitchOther()}}/> 
-                            <Text style={{marginLeft:16}}>Other</Text>
+                          
                         </View>
+
+                        <View style={{flexDirection:'row'}}>
+
+                        <Switch style={{marginLeft:16}} value={this.state.switchNonFiction}  
+                                onValueChange ={()=>{this.updateArray('nonfiction')}}/> 
+                            <Text style={{marginLeft:16}}>Non-Fiction</Text>
+
+                            <Switch style={{marginLeft:16}} value={this.state.switchPoetry}  
+                                onValueChange ={()=>{this.updateArray('poetry')}}/> 
+                            <Text style={{marginLeft:16}}>Poetry</Text>
+                        
+                        <Switch style={{marginLeft:16}} value={this.state.switchOther}  
+                                onValueChange ={()=>{this.updateArray('other')}}/> 
+                            <Text style={{marginLeft:16}}>Other</Text>
+                            
+                          
+                        </View>
+
+                        
 
                     </View>
                 
